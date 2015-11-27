@@ -93,21 +93,27 @@
                         var f = document.getElementById('userImage').files[0] ? document.getElementById('userImage').files[0] : null;
                         //alert(f);
                         var r = new FileReader();
-                        r.onloadend = function(e) {
-                            $scope.user.image = e.target.result;
+                        var size = document.getElementById('userImage').files[0].size;
+                        //alert(size);
+                        if(size <= 400000) {
+                            r.onloadend = function (e) {
+                                $scope.user.image = e.target.result;
 
-                            crudService.create($scope.user, 'users').then(function (data) {
-                                if (data['estado'] == true) {
-                                    $scope.success = data['nombres'];
+                                crudService.create($scope.user, 'users').then(function (data) {
+                                    if (data['estado'] == true) {
+                                        $scope.success = data['nombres'];
 
-                                    $location.path('/users');
+                                        $location.path('/users');
 
-                                } else {
-                                    $scope.errors = data;
-                                    //alert(data);
+                                    } else {
+                                        $scope.errors = data;
+                                        //alert(data);
 
-                                }
-                            });
+                                    }
+                                });
+                            }
+                        }else{
+                            alert('Imagen no puede superar los 400KB.')
                         }
                         if(!document.getElementById('userImage').files[0]){
                         crudService.create($scope.user,'users').then(function (data){
@@ -138,30 +144,36 @@
                         var f = document.getElementById('userImage').files[0] ? document.getElementById('userImage').files[0] : null;
                         //alert(f);
                         var r = new FileReader();
-                        r.onloadend = function(e) {
-                            $scope.user.image = e.target.result;
-                        crudService.update($scope.user,'users').then(function(data)
-                        {
-                            if(data['estado'] == true){
-                                $scope.success = data['nombres'];
-                                alert('editado correctamente');
-                                $location.path('/users');
-                            }else{
-                                $scope.errors =data;
+                        var size = document.getElementById('userImage').files[0].size;
+                        //alert(size);
+                        if(size <= 400000) {
+                            r.onloadend = function (e) {
+                                $scope.user.image = e.target.result;
+                                crudService.update($scope.user, 'users').then(function (data) {
+                                    if (data['estado'] == true) {
+                                        $scope.success = data['nombres'];
+                                        alert('editado correctamente');
+                                        $location.path('/users');
+                                    } else {
+                                        $scope.errors = data;
+                                    }
+                                });
                             }
-                        });
+                        }else{
+                            alert('Imagen no puede superar los 400KB.')
                         }
                         if(!document.getElementById('userImage').files[0]){
-                        crudService.update($scope.user,'users').then(function(data)
-                        {
-                            if(data['estado'] == true){
-                                $scope.success = data['nombres'];
-                                alert('editado correctamente');
-                                $location.path('/users');
-                            }else{
-                                $scope.errors =data;
-                            }
-                        });}
+                                crudService.update($scope.user,'users').then(function(data)
+                                {
+                                    if(data['estado'] == true){
+                                        $scope.success = data['nombres'];
+                                        alert('editado correctamente');
+                                        $location.path('/users');
+                                    }else{
+                                        $scope.errors =data;
+                                    }
+                                });
+                        }
 
                         if(document.getElementById('userImage').files[0]){
                             r.readAsDataURL(f);

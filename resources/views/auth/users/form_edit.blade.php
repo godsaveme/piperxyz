@@ -50,7 +50,7 @@
                       </label>
                     </div>
                     <div class="form-group" ng-class="{true: 'has-error'}[ userCreateForm.store.$error.required  && userCreateForm.$submitted || userCreateForm.store.$dirty && userCreateForm.store.$invalid]">
-                                              <label>Tienda</label>
+                                              <label>Empresa</label>
                                                    <select name="store" class="form-control" ng-model="user.store_id" ng-options="k as v for (k, v) in stores">
 
                                                 </select>

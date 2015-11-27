@@ -36,7 +36,7 @@
                           <label for="month">Tienda</label>
 
                           <select class="form-control" name="" ng-model="stores.id" ng-click="mostrarCajas()" ng-options="item.id as item.nombreTienda for item in stores">
-                          <option value="">--Elije Tienda--</option>
+                          <option value="">--Elije Empresa--</option>
                           </select>
                         </div>
                       </div>

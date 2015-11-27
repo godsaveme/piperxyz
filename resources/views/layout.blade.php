@@ -151,6 +151,7 @@
                 <li class=""><a href="/users" ><i class="fa fa-circle-o"></i>Usuarios</a></li>
 
                   <li><a href="/stores"><i class="fa fa-circle-o"></i>Empresas </a></li>
+                <li><a href="/#"><i class="fa fa-circle-o"></i>Conceptos </a></li>
 
               </ul>
             </li>
@@ -182,13 +183,10 @@
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                <li class=""><a href="#" ><i class="fa fa-circle-o"></i>Reporte de Ventas</a></li>
-                <li><a href="#"><i class="fa fa-circle-o"></i>Reporte de Inventario </a></li>
-                <li><a href="#"><i class="fa fa-circle-o"></i>Reporte de Pagos a Proveedores </a></li>
-                <li><a href="#"><i class="fa fa-circle-o"></i>Reporte de Cajas </a></li>
-                <li><a href="#"><i class="fa fa-circle-o"></i>Reporte de Ventas por Vendedores </a></li>
-                <li><a href="#"><i class="fa fa-circle-o"></i>Reporte de Movimientos de Almacén </a></li>
-                <li><a href="#"><i class="fa fa-circle-o"></i>Reporte de Productos por llegar </a></li>
+                <li class=""><a href="/#" ><i class="fa fa-circle-o"></i>Reporte de Tickets</a></li>
+                <li><a href="/#"><i class="fa fa-circle-o"></i>Reporte de Cajas </a></li>
+                <li><a href="/#"><i class="fa fa-circle-o"></i>Reporte de Conceptos </a></li>
+
               </ul>
             </li>
 
@@ -257,7 +255,7 @@
                             <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
 
                           </div><!-- /.box-tools -->
-                          <a href="/products/create" type="button" class="btn  btn-info btn-flat pull-right btn-sm" style="margin-right: 25px;">Genera ticket</a>
+                          <a href="/sales/create" type="button" class="btn  btn-info btn-flat pull-right btn-sm" style="margin-right: 25px;">Genera ticket</a>
                         </div><!-- /.box-header -->
                         <div class="box-body">
                           Genera tickets de ingreso general, paseo en botes y personalizados.

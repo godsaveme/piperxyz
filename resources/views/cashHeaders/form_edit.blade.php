@@ -58,9 +58,9 @@
                   <div class="row">
                     <div class="col-md-6">
                      <div class="form-group" >
-                        <label for="year">Tienda</label>
+                        <label for="year">Empresa</label>
                         <select class="form-control" name="" ng-model="cashHeader.store_id" ng-options="item.id as item.nombreTienda for item in stores">
-                          <option value="">--Elije Tienda--</option>
+                          <option value="">--Elije Empresa--</option>
                         </select>
                       </div>
                     </div>
