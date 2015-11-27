@@ -22,7 +22,7 @@ class StoreTableSeeder extends Seeder
             'departamento' => 'Lambayeque',
             'pais' => 'Peru',
             'email' => 'laspirkas_eirl@hotmail.com',
-            'web' => 'http://laspirkas.com.pe/',
+            'website' => 'http://laspirkas.com.pe/',
             'created_at' => date("Y-m-d H:i:s"),
             'updated_at' => date("Y-m-d H:i:s")
         ]);
