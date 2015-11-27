@@ -24,7 +24,7 @@
   <body class="login-page">
     <div class="login-box">
       <div class="login-logo">
-        <a href="../../index2.html"><b>Sales</b>Fly</a>
+        <a href="/"><b>Ges</b>Ti</a>
       </div><!-- /.login-logo -->
       <div class="login-box-body">
         <p class="login-box-msg">Escibre tus credenciales para iniciar sesión</p>
