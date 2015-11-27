@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class MonthsTable extends Migration
+class CreateConceptoTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,9 +12,11 @@ class MonthsTable extends Migration
      */
     public function up()
     {
-        Schema::create('months', function (Blueprint $table) {
+        Schema::create('concepto', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('month',100);
+            $table->string('nombre');
+            $table->decimal('precioUnit',10,2);
+            $table->string('descripcion');
             $table->timestamps();
         });
     }
@@ -26,6 +28,6 @@ class MonthsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('months');
+        Schema::drop('concepto');
     }
 }

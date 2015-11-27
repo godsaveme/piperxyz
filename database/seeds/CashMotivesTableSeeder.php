@@ -97,67 +97,12 @@ class CashMotivesTableSeeder extends Seeder
             'updated_at' => date("Y-m-d H:i:s")
         ]);
         DB::table('cashMotives')->insert([
-            'nombre' => 'Pago crédito venta',
-            'observacion' => 'Pago crédito',
-            'tipo' => '+',
-            'created_at' => date("Y-m-d H:i:s"),
-            'updated_at' => date("Y-m-d H:i:s")
-        ]);
-        DB::table('cashMotives')->insert([
-            'nombre' => 'Venta crédito',
-            'observacion' => 'Venta crédito',
-            'tipo' => '+',
-            'created_at' => date("Y-m-d H:i:s"),
-            'updated_at' => date("Y-m-d H:i:s")
-        ]);
-        DB::table('cashMotives')->insert([
-            'nombre' => 'Pedido',
-            'observacion' => 'Pedido',
-            'tipo' => '+',
-            'created_at' => date("Y-m-d H:i:s"),
-            'updated_at' => date("Y-m-d H:i:s")
-        ]);
-        DB::table('cashMotives')->insert([
-            'nombre' => 'Pedido crédito',
-            'observacion' => 'Pedido crédito',
-            'tipo' => '+',
-            'created_at' => date("Y-m-d H:i:s"),
-            'updated_at' => date("Y-m-d H:i:s")
-        ]);
-        DB::table('cashMotives')->insert([
-            'nombre' => 'Pago crédito pedido',
-            'observacion' => 'Pago crédito pedido',
-            'tipo' => '+',
-            'created_at' => date("Y-m-d H:i:s"),
-            'updated_at' => date("Y-m-d H:i:s")
-        ]);
-        DB::table('cashMotives')->insert([
             'nombre' => 'Reembolso',
             'observacion' => 'Reembolso',
             'tipo' => '-',
             'created_at' => date("Y-m-d H:i:s"),
             'updated_at' => date("Y-m-d H:i:s")
         ]);
-        DB::table('cashMotives')->insert([
-            'nombre' => 'Separado',
-            'observacion' => 'Separado',
-            'tipo' => '+',
-            'created_at' => date("Y-m-d H:i:s"),
-            'updated_at' => date("Y-m-d H:i:s")
-        ]);
-        DB::table('cashMotives')->insert([
-            'nombre' => 'Separado crédito',
-            'observacion' => 'Separado crédito',
-            'tipo' => '+',
-            'created_at' => date("Y-m-d H:i:s"),
-            'updated_at' => date("Y-m-d H:i:s")
-        ]);
-        DB::table('cashMotives')->insert([
-            'nombre' => 'Pago crédito separado',
-            'observacion' => 'Pago crédito separado',
-            'tipo' => '+',
-            'created_at' => date("Y-m-d H:i:s"),
-            'updated_at' => date("Y-m-d H:i:s")
-        ]);
+
     }
 }

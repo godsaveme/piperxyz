@@ -24,7 +24,6 @@ class CreateCashesTable extends Migration
             $table->decimal('descuadre',10,2);
             $table->tinyInteger('estado');
             $table->string('notas');
-
             $table->integer('cashHeader_id')->unsigned();
             $table->foreign('cashHeader_id')->references('id')->on('cashHeaders');
             $table->timestamps();

@@ -18,6 +18,7 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->string('password', 60);
             $table->text('image');
+            $table->tinyInteger('estado'); //1-> activo, 0 -> no activo;
             $table->integer('store_id')->unsigned();
             $table->integer('role_id')->unsigned();
             $table->foreign('role_id')->references('id')->on('roles');

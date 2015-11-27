@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>Salesfly | @section('module')Dashboard @show</title>
+    <title>PIRKAS | @section('module')Dashboard @show</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.4 -->
@@ -46,9 +46,9 @@
         <!-- Logo -->
         <a href="/" class="logo">
           <!-- mini logo for sidebar mini 50x50 pixels -->
-          <span class="logo-mini"><b>SL</b>F</span>
+          <span class="logo-mini"><b>GS</b>T</span>
           <!-- logo for regular state and mobile devices -->
-          <span class="logo-lg"><b>Sales</b>Fly</span>
+          <span class="logo-lg"><b>Ges</b>Ti</span>
         </a>
         <!-- Header Navbar: style can be found in header.less -->
         <nav class="navbar navbar-static-top" role="navigation">
@@ -149,28 +149,12 @@
               </a>
               <ul class="treeview-menu">
                 <li class=""><a href="/users" ><i class="fa fa-circle-o"></i>Usuarios</a></li>
-                <li class=""><a href="/employees" ><i class="fa fa-circle-o"></i>Empleados</a></li>
-                  <li><a href="/stores"><i class="fa fa-circle-o"></i>Tienda </a></li>
-                <li><a href="/warehouses"><i class="fa fa-circle-o"></i>Almacenes </a></li>
+
+                  <li><a href="/stores"><i class="fa fa-circle-o"></i>Empresas </a></li>
+
               </ul>
             </li>
-            <li class="treeview">
-              <a href="#">
-                <i class="fa fa-barcode"></i>
-                <span>Productos</span>
-                <i class="fa fa-angle-left pull-right"></i>
-              </a>
-              <ul class="treeview-menu">
-                <li class=""><a href="/products" ><i class="fa fa-circle-o"></i>Productos</a></li>
-                <li class=""><a href="/purchases" ><i class="fa fa-circle-o"></i>Control de Stock</a></li>
-                <li class=""><a href="/brands" ><i class="fa fa-circle-o"></i>Marcas</a></li>
-                <li><a href="/types"><i class="fa fa-circle-o"></i>Líneas </a></li>
-                <li><a href="/materials"><i class="fa fa-circle-o"></i>Materiales </a></li>
-                <li><a href="/stations"><i class="fa fa-circle-o"></i>Estaciones </a></li>
-                <li><a href="/atributes"><i class="fa fa-circle-o"></i>Atributos </a></li>
-                <li><a href="/suppliers"><i class="fa fa-circle-o"></i>Proveedores </a></li>
-              </ul>
-            </li>
+
             <li class="">
                           <a href="/sales/create">
                             <i class="fa fa-shopping-cart"></i> <span>Vender!</span>
@@ -184,16 +168,12 @@
               </a>
               <ul class="treeview-menu">
                 <li class=""><a href="/cashHeaders" ><i class="fa fa-circle-o"></i>Cajas</a></li>
-                <li class=""><a href="/cashMonthlys" ><i class="fa fa-circle-o"></i>Gastos de Caja Mensual</a></li>
+
                 <li class=""><a href="/cashes" ><i class="fa fa-circle-o"></i>Ver Cajas Abiertas</a></li>
 
               </ul>
             </li>
-            <li class="">
-              <a href="/customers">
-                <i class="fa fa-users"></i> <span>Clientes</span>
-              </a>
-            </li>
+
 
             <li class="treeview">
               <a href="#">
@@ -242,7 +222,7 @@
             <div class="col-md-12">
               <div class="box">
                 <div class="box-header with-border">
-                  <h3 class="box-title"><i class="fa fa-home"></i> SalesFly</h3>
+                  <h3 class="box-title"><i class="fa fa-home"></i> GesTi</h3>
                   <div class="box-tools pull-right">
                     <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
                     <div class="btn-group">
@@ -261,8 +241,7 @@
                 <div class="box-body">
                   <div class="row">
                     <div class="col-md-8 col-md-offset-0">
-                        <h4>Completa los primeros pasos para poder empezar a descubrir SalesFly o mira el video de la derecha y
-                        aprenda como hacer tu primera venta con los productos de demostración que hemos añadido para usted. </h4>
+                        <h4>Sistema de Gestión de Tickets.  </h4>
                     </div>
 
                   </div><!-- /.row -->
@@ -272,90 +251,52 @@
 
                       <div class="box box-default">
                         <div class="box-header with-border">
-                          <h3 class="box-title"> 1. Añade tus productos!  </h3>
+                          <h3 class="box-title"> Realiza una transación!  </h3>
                           <div class="box-tools pull-right">
 
                             <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
 
                           </div><!-- /.box-tools -->
-                          <a href="/products/create" type="button" class="btn  btn-info btn-flat pull-right btn-sm" style="margin-right: 25px;">Añade un Producto</a>
+                          <a href="/products/create" type="button" class="btn  btn-info btn-flat pull-right btn-sm" style="margin-right: 25px;">Genera ticket</a>
                         </div><!-- /.box-header -->
                         <div class="box-body">
-                          Puedes agregar manualmente tus productos. Te hemos puesto productos de ejemplo.
+                          Genera tickets de ingreso general, paseo en botes y personalizados.
                         </div><!-- /.box-body -->
 
                       </div><!-- /.box -->
                     </div>
                   </div>
-                  <div class="row">
-                    <div class="col-md-10 col-md-offset-1">
 
-                      <div class="box box-default collapsed-box">
-                        <div class="box-header with-border">
-                          <h3 class="box-title"> 2. Añade tus clientes!  </h3>
-                          <div class="box-tools pull-right">
 
-                            <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
-
-                          </div><!-- /.box-tools -->
-                          <a href="/customers/create" type="button" class="btn  btn-info btn-flat pull-right btn-sm" style="margin-right: 25px;">Añade un Cliente</a>
-                        </div><!-- /.box-header -->
-                        <div class="box-body">
-                          Puedes agregar manualmente tus productos. Te hemos puesto productos de ejemplo.
-                        </div><!-- /.box-body -->
-
-                      </div><!-- /.box -->
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-md-10 col-md-offset-1">
-
-                      <div class="box box-default collapsed-box">
-                        <div class="box-header with-border">
-                          <h3 class="box-title"> 3. Añade tus empleados!  </h3>
-                          <div class="box-tools pull-right">
-
-                            <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
-
-                          </div><!-- /.box-tools -->
-                          <a href="/employees/create" type="button" class="btn  btn-info btn-flat pull-right btn-sm" style="margin-right: 25px;">Añade un Empleado!</a>
-                        </div><!-- /.box-header -->
-                        <div class="box-body">
-                          Puedes agregar manualmente tus productos. Te hemos puesto productos de ejemplo.
-                        </div><!-- /.box-body -->
-
-                      </div><!-- /.box -->
-                    </div>
-                  </div>
                 </div><!-- ./box-body -->
                 <div class="box-footer">
                   <div class="row">
                     <div class="col-sm-3 col-xs-6">
                       <div class="description-block border-right">
                         <span class="description-percentage text-green"><i class="fa fa-caret-up"></i> 17%</span>
-                        <h5 class="description-header">$35,210.43</h5>
-                        <span class="description-text">TOTAL REVENUE</span>
+                        <h5 class="description-header">S/.35,210.43</h5>
+                        <span class="description-text">TOTAL DE INGRESOS</span>
                       </div><!-- /.description-block -->
                     </div><!-- /.col -->
                     <div class="col-sm-3 col-xs-6">
                       <div class="description-block border-right">
                         <span class="description-percentage text-yellow"><i class="fa fa-caret-left"></i> 0%</span>
-                        <h5 class="description-header">$10,390.90</h5>
-                        <span class="description-text">TOTAL COST</span>
+                        <h5 class="description-header">S/.10,390.90</h5>
+                        <span class="description-text">TOTAL DE GASTOS</span>
                       </div><!-- /.description-block -->
                     </div><!-- /.col -->
                     <div class="col-sm-3 col-xs-6">
                       <div class="description-block border-right">
                         <span class="description-percentage text-green"><i class="fa fa-caret-up"></i> 20%</span>
                         <h5 class="description-header">$24,813.53</h5>
-                        <span class="description-text">TOTAL PROFIT</span>
+                        <span class="description-text">TOTAL DE UTILIDADES</span>
                       </div><!-- /.description-block -->
                     </div><!-- /.col -->
                     <div class="col-sm-3 col-xs-6">
                       <div class="description-block">
                         <span class="description-percentage text-red"><i class="fa fa-caret-down"></i> 18%</span>
                         <h5 class="description-header">1200</h5>
-                        <span class="description-text">GOAL COMPLETIONS</span>
+                        <span class="description-text">METAS CUMPLIDAS</span>
                       </div><!-- /.description-block -->
                     </div>
                   </div><!-- /.row -->
@@ -377,7 +318,7 @@
         <div class="pull-right hidden-xs">
           <b>Version</b> 1.01
         </div>
-        <strong>Copyright &copy; 2014-2015 <a href="#">Salesfly</a>.</strong> Todos los derechos reservados.
+        <strong>Copyright &copy; 2014-2015 <a href="#">GESTI</a>.</strong> Todos los derechos reservados.
       </footer>
 
       <!-- Control Sidebar -->

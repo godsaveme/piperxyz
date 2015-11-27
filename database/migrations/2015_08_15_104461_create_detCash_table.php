@@ -22,7 +22,6 @@ class CreateDetCashTable extends Migration
             $table->decimal('montoFinal',10,2);
             $table->tinyInteger('estado');
             $table->string('observacion');
-
             $table->integer('cashMotive_id')->unsigned();
             $table->foreign('cashMotive_id')->references('id')->on('cashMotives');
             $table->integer('cash_id')->unsigned();

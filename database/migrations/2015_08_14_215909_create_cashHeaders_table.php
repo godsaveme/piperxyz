@@ -18,6 +18,10 @@ class CreateCashHeadersTable extends Migration
             $table->string('ambiente');
             $table->tinyInteger('estado');
             $table->string('descripcion');
+            $table->string('serieTicket');
+            $table->string('numeroTicket');
+            $table->string('seriePrinter');
+            $table->string('msje');
             $table->integer('store_id')->unsigned();
             $table->foreign('store_id')->references('id')->on('stores');
             $table->timestamps();

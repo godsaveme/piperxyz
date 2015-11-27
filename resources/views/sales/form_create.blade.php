@@ -41,175 +41,182 @@
                   <li class=""><a href="#tab_2" data-toggle="tab" aria-expanded="false" ng-click="actualizarCaja()">Caja Venta</a></li>
                   <li class=""><a href="#tab_3" data-toggle="tab" aria-expanded="false">Opciones</a></li>
                   <li class=""><a href="#tab_4" data-toggle="tab" aria-expanded="false">Reporte</a></li>
-                  <li class=""><a href="#tab_5" data-toggle="tab" aria-expanded="false" ng-click="cargarConsulta()">Consultas</a></li>
+                  <li class=""><a href="#tab_5" data-toggle="tab" aria-expanded="false" ng-click="">Consultas</a></li>
                 </ul>
                 <div class="tab-content">
                   <div class="tab-pane active" id="tab_1">
 
 
                     <div class="row">
-                      <div class="col-md-6" >
-                      <div class="box box-solid">
-                        <div class="box-header with-border" style="background-color: #D7EAE3; border-style: solid;
-                              border-width: 2px; border-color: #C8D9F7; border-radius: 10px 10px 0px 0px;">
-                          <div class="row">
-                            <div class="col-md-9" ng-show="skuestado">
-                              <input type="text" ng-model="varianteSkuSelected" placeholder="Buscar por SKU" ng-enter="getvariantSKU()" class="form-control">
-                            </div>
-
-                            <div class="col-md-9" ng-show="!skuestado">
-                              <input  type="text" ng-model="atributoSelected" ng-enter="open()" placeholder="Buscar por codigo" typeahead="atributo as atributo.NombreAtributos for atributo in getAtributos($viewValue)" 
-                                    typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control"/>
-                            </div>
-                            <div class="col-md-3" >
+                        <div class="col-md-1 col-md-offset-2 ">
                             <div class="form-group">
-                                <input type="checkbox" name="estado" ng-model="base" ng-checked="base" class="ng-valid ng-dirty ng-valid-parse ng-touched" ng-click="baseestado()">
-                                <label for="estado">Base</label>                             
-                              
-                                <input type="checkbox" name="skuestado" ng-model="skuestado" ng-checked="skuestado" class="ng-valid ng-dirty ng-valid-parse ng-touched">
-                                <label for="estado">SKU</label>                             
+                            <label for="">OPCIÓN:</label>
+                            </div>
+
+                        </div>
+                      <div class="col-md-3 " >
+
+
+                          <div class="form-group">
+
+
+                              <div class="form-group">
+                                  <div class="radio">
+                                      <label>
+                                          <input type="radio" name="optionsRadios" id="optionsRadios1" ng-model="ticket.concepto" value="ingreso" ng-change="selectConcepto()" >
+                                          INGRESO
+                                      </label>
+                                  </div>
+                                  <div class="radio">
+                                      <label>
+                                          <input type="radio" name="optionsRadios" ng-model="ticket.concepto" value="bote" ng-change="selectConcepto()">
+                                          BOTE
+                                      </label>
+                                  </div>
+                                  <div class="radio">
+                                      <label>
+                                          <input type="radio" name="optionsRadios" ng-model="ticket.concepto" value="otro" ng-change="selectConcepto()">
+                                          OTRO
+                                      </label>
+                                  </div>
                               </div>
-                            </div>
 
-                            
-                            
-                            
-     
-                           </div> 
- 
-                        </div><!-- /.box-header -->
-                        <div class="box-body" style="min-height: 400px; border-style: solid;
-                                border-width: 2px; border-color: #C8D9F7;" >
-                          <table class="table table-bordered">
-                                             
-                            <tr ng-repeat="row in compras track by $index">
-                              <td>
-                                  <button data-toggle="popover" popover-template="dynamicPopover.templateUrl" type="button" class="btn btn-default">@{{compras[$index].cantidad}}</button>
-                              </td>
-                              <td><a popover-template="dynamicPopover5.templateUrl" popover-trigger="mouseenter">@{{compras[$index].NombreAtributos}}</a></td>
-                              <td>
-                                  <button data-toggle="popover" popover-template="dynamicPopover1.templateUrl" type="button" class="btn btn-default">@{{compras[$index].precioVenta| number:2}}</button>
-                              </td>
-                              <td>@{{compras[$index].subTotal | number:2}}</td>
-                              <td><button type="button" class="btn btn-danger ng-binding"  ng-click="sacarRow($index,row.subTotal)">
-                              <span class="glyphicon glyphicon-trash"></span>
-                              </td>                    
-                            </tr>                                    
-                          </table> 
-    
-                        </div><!-- /.box-body -->
-
-
-                        <div class="box-footer clearfix" style="background-color: #D7EAE3; border-style: solid;
-                               border-width: 2px; border-color: #C8D9F7; border-radius: 0px 0px 10px 10px;">
-                          <div class="row">
-                            <div class="col-md-6" >
-                              <table class="table table-bordered">
-                                <tr>
-                                  <div class="row">
-                                    <div class="col-md-10" >
-                                      <input type="text" ng-model="customersSelected" placeholder="Buscar Cliente" typeahead="atributo as atributo.busqueda for atributo in getcustomers($viewValue)" 
-                                            typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control" typeahead-on-select="selecionarCliente()"/>
-                                    </div>
-                                    <div>
-                                      <a class="btn btn-default ng-binding" data-toggle="modal" data-target="#miventana2"><span class="glyphicon glyphicon-plus"></span></a>
-                                    </div>
-                                </tr>
-                                <tr>
-                                  <div>
-                                    <a ng-if="sale.cliente!=undefined"type="button" class="glyphicon glyphicon-remove-sign " ng-click="deleteCliente()"></a>
-                                    @{{sale.cliente!=undefined? sale.cliente:'--No hay cliente seleccionado--'}}
-                                  </div>
-                                </tr>
-                                <tr>
-                                  <div>
-                                    <input type="text" ng-model="employeeSelected" placeholder="Buscar Vendedor" typeahead="atributo as atributo.busqueda for atributo in getemployee($viewValue)" 
-                                            typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control" typeahead-on-select="selecionarVendedor()"/>
-                                  </div>
-                                </tr>
-                               <tr>
-                                  <div>
-                                    <a ng-if="sale.vendedor!=undefined"type="button" class="glyphicon glyphicon-remove-sign " ng-click="deleteVendedor()"></a>
-                                    @{{sale.vendedor!=undefined? sale.vendedor:'--No hay vendedor seleccionado--'}}
-                                  </div>
-                                </tr>
-                                <tr>
-                                  <div class="row">
-                                    <div class="col-md-7" >
-                                      <button ng-click="estadoNotas()" ng-if="banderaNotas" data-toggle="popover" popover-template="dynamicPopover6.templateUrl" type="button" class="btn btn-default">ADD NOTAS</a>
-                                      <button ng-click="estadoNotas()" ng-if="!banderaNotas" data-toggle="popover" popover-template="dynamicPopover6.templateUrl" type="button" class="btn btn-danger">ADD NOTAS</a>
-                                      
-                                    
-                                    </div>
-                                    <div class="col-md-5" >
-                                      <a ng-if="sale.montoTotal>0" class="btn btn-default ng-binding" data-toggle="modal" data-target="#miventana1" ng-click="pagar()">PAGAR</a>
-                                      <a ng-if="sale.montoTotal==0"class="btn btn-default ng-binding" ng-click="pagar()">PAGAR</a>
-                                    </div>
-                                  </div>
-                                </tr>
-                                  
-                              </table>
-
-                            </div>
-
-                            <div class="col-md-6" >
-                                <table class="table table-bordered">
-                                <tr>
-                                <td>Sub Total</td>
-                                <td>@{{sale.montoBruto | number:2}}</td>                    
-                                </tr>
-                                <tr> 
-                                <td>IGV</td>
-                                <td>@{{sale.igv | number:2}}</td>                    
-                                </tr> 
-                                <tr style="border-bottom: solid; border-width: medium;">
-                                <td>Descuento</td>
-                                <td>
-                                  <button popover-template="dynamicPopover2.templateUrl" type="button" class="btn btn-default">@{{sale.descuento | number:2}}</button>
-                                </td>                    
-                                </tr> 
-                                <tr>
-                                <td ><b>Total</b></td>
-                                <td ng-model="sale.montoTotal" ><b>@{{sale.montoTotal | number:2}}</b></td>                    
-                                </tr>                                   
-                              </table>
-                            </div>
-                        </div>
-                      </div> 
-
-                    </div>
-
-
-
-
-
-                    </div>
-
-                    <div class="col-md-6" style="min-height: 670px; border-style: solid;
-                                border-width: 2px; border-color: #C8D9F7; border-radius:10px" >
-                        <div>
-                        <div class="modal-header">
-                          <h4 class="modal-title">Favoritos <button type="button" class="btn btn-info btn-flat btn-xs pull-right" ng-click="AddFavoritos()"> <span class="glyphicon glyphicon-plus"></span> </button>
-                          <button type="button" class="btn btn-danger btn-flat btn-xs pull-right" ng-click="delFavEst()"> <span class="glyphicon glyphicon-trash"></span> </button></h4>
-                        </div>
-                          <div class="box-body">
-                            <button ng-if="!banderadeleteFavorito" type="button" class="btn btn-default" ng-repeat="row in favoritos" style="width: 115px;height: 60px; overflow-x:hidden;" title="@{{row.NombreAtributos}}"
-                                    ng-click="deleteFavoritos(row)">   
-                                    <a type="button" class="glyphicon glyphicon-remove" ng-click="deleteFavoritos(row)"></a>                         
-                                @{{row.NombreAtributos}}
-
-                            </button>  
-                            <button ng-if="banderadeleteFavorito" type="button" class="btn btn-default" ng-repeat="row in favoritos" style="width: 115px;height: 60px; overflow-x:hidden;" title="@{{row.NombreAtributos}}"
-                                    ng-click="cargarFavoritos(row)">                           
-                                @{{row.NombreAtributos}}
-
-                            </button>  
                           </div>
 
+
+
                         </div>
-                      
+
+
                     </div>
-                  </div>
+
+                      <div class="row" ng-show="setVisibleOtro">
+                          <div class="col-md-1 col-md-offset-2 ">
+                              <div class="form-group">
+                                  <label for="" class="control-label">OTRO:</label>
+                              </div>
+
+                          </div>
+                          <div class="col-md-3 " >
+
+
+                              <div class="form-group">
+
+
+                                  <select  class="form-control" name="name" placeholder="##" ng-model="ticket.nombreConcepto"  ng-change="agrega()">
+                                      <option value="agregar">-- Agregar --</option>
+                                      <option value="1">CAMPING</option>
+                                      <option value="2">PRECIO ESPECIAL A COLEGIO</option>
+                                      <option value="3">PRECIO ESPECIAL A IGLESIA</option>
+                                      <option value="4">EVENTO</option>
+
+                                      </select>
+
+                              </div>
+
+
+
+                          </div>
+
+                          <div class="col-md-6" ng-show="setVisibleNuevoConcepto">
+                              <div class="row">
+                                  <div class="col-md-2">
+                                      <label for="">Nuevo Concepto:</label>
+                                  </div>
+                                  <div class="col-md-7">
+                                      <input type="text" class="form-control" placeholder="..." ng-model="yvgy">
+                                  </div>
+                                  <div class="col-md-2">
+                              <button class="btn btn-default pull-right">Agregar</button>
+                                  </div>
+                              </div>
+                          </div>
+
+
+                      </div>
+
+                      <div class="row">
+                          <div class="col-md-1 col-md-offset-2 ">
+                              <div class="form-group">
+                                  <label for="" class="control-label">PRECIO:</label>
+                              </div>
+
+                          </div>
+                          <div class="col-md-3 " >
+
+
+                              <div class="form-group">
+
+
+                                  <input type="number" class="form-control" name="name" placeholder="##" ng-model="ticket.precioUnitFinal" required ng-disabled="!setVisibleOtro">
+
+                              </div>
+
+
+
+                          </div>
+
+
+                      </div>
+
+                      <div class="row">
+                          <div class="col-md-1 col-md-offset-2 ">
+                              <div class="form-group">
+                                  <label for="" class="control-label">CANTIDAD:</label>
+                              </div>
+
+                          </div>
+                          <div class="col-md-3 " >
+
+
+                              <div class="form-group">
+
+
+                                  <input type="number" class="form-control" name="name" placeholder="##" ng-model="ticket.cantidad" required>
+
+                              </div>
+
+
+
+                          </div>
+
+
+                      </div>
+                      <div class="row">
+                          <div class="col-md-1 col-md-offset-2 ">
+                              <div class="form-group">
+                                  <label for="" class="control-label">TOTAL:</label>
+                              </div>
+
+                          </div>
+                          <div class="col-md-3 " >
+
+
+                              <div class="form-group">
+
+
+                                  <input type="number" class="form-control" name="name" placeholder="##" ng-model="ticket.montoFinal" required ng-disabled="true">
+
+                              </div>
+
+
+
+                          </div>
+
+
+                      </div>
+                      <div class="row">
+                          <div class="col-md-1 col-md-offset-3 ">
+                                <button type="" class="btn btn-info pull-right">GENERAR</button>
+                          </div>
+                          <div class="col-md-1 col-md-offset-1 ">
+                              <button type="" class="btn btn-warning pull-right">LIMPIAR</button>
+                          </div>
+
+
+                      </div>
+
+
 
                   </div><!-- /.tab-pane -->
 
@@ -318,44 +325,7 @@
 
                   </div>
 
-                  <div class="tab-pane" id="tab_5">
-                    <table class="table table-bordered">
-                    <tr>
-                      <th style="width: 10px">#</th>
-                      <th>Productos</th>
-                      <th>Codigo</th>
-                      <th><select class="form-control" name="" ng-model="materialId" ng-click="cargarConsul()"ng-options="item.id as item.nombre for item in brands">
-                          <option value="">Material - Todos</option>
-                      <th><select class="form-control" name="" ng-model="lineaId" ng-click="cargarConsul()"ng-options="item.id as item.nombre for item in types">
-                          <option value="">Linea - Todos</option>
-                          </select></th>
-                      <th>Sabor</th>
-                      <th>Cantidad</th>
-                      <th>Stock</th>
-                      <th>Descuento</th>
-                      <th>Precio Normal</th>
-                      <th>Precio Oferta</th>
-                    </tr>
-                    
-                    <tr ng-repeat="row in variants1 track by $index">
-                      <td>@{{$index + 1}}</td>
-                      <td>@{{row.Producto}}</td>
-                      <td>@{{row.codigo}}</td>
-                      <td>@{{row.Mate}}</td>
-                      <td>@{{row.Linea}}</td>
-                      <td>@{{row.Color}}</td>
-                      <td>@{{row.Tallas}}</td>
-                      <td>@{{row.stock}}</td>
-                      <td>@{{row.Descuento}}</td>
-                      <td>@{{row.Precio}}</td>
-                      <td>@{{row.PrecioVenta}}</td>
-                      
-                    </tr>
-                    
-                    
-                  </table>
 
-                  </div>
 
                 </div><!-- /.tab-content -->
               </div>

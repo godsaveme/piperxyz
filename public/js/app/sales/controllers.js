@@ -5,7 +5,38 @@
                 
                 $scope.errors = null;
                 $scope.success;
-                $scope.query = ''; 
+                $scope.query = '';
+
+
+                /*
+                ticketEntrada PIRKAS
+                 */
+                $scope.ticket = {};
+                $scope.ticket.concepto = 'ingreso';
+                $scope.setVisibleOtro = false;
+                $scope.setVisibleNuevoConcepto = false;
+                $scope.selectConcepto = function(){
+
+                    if($scope.ticket.concepto == 'otro'){
+                        $scope.setVisibleOtro = true;
+                    }else{
+                        $scope.setVisibleOtro = false;
+                    }
+                };
+
+                $scope.agrega = function(){
+                    if($scope.ticket.nombreConcepto == 'agregar'){
+                        $scope.setVisibleNuevoConcepto = true;
+                    }else{
+                        $scope.setVisibleNuevoConcepto = false;
+                    }
+                }
+                $scope.ticket.nombreConcepto = '1';
+
+                /*
+                FIN TicketEntrada pirkas
+                 */
+
                 /*
 
                 $scope.orders = [];
