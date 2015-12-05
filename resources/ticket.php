@@ -10,9 +10,9 @@
 							$printer -> selectPrintMode();
 							$printer -> setJustification(Escpos::JUSTIFY_LEFT);
 							$printer -> feed();
-							$printer -> text("Ticket N°: 50");
+							$printer -> text("Ticket N°: 58");
 							$printer -> feed();
-							$printer -> text("Fecha y Hora: 2015-12-05 11:40:12\n");
+							$printer -> text("Fecha y Hora: 2015-12-05 11:50:48\n");
 							$printer -> text("------------------------------------------\n");
 							$printer -> text("Concepto: ");
                             $printer -> text("Ingreso General");
@@ -28,4 +28,4 @@
                             $printer -> feed();
 
 
-							$printer -> text("------------------------------------------\n");$printer -> text("Nombres/Rzon Soc.:________________________\n");$printer -> text("Direcc.:__________________________________\n");$printer -> text("DNI/RUC.:_________________________________\n");$printer -> feed();$printer -> text("Fecha de Impr.: 05-12-2015 11:40:12\n");$printer -> text("<<No válido como documento contable>>\n");$printer -> feed();$printer -> cut();$printer -> close();
+							$printer -> text("------------------------------------------\n");$printer -> feed();$printer -> setJustification(Escpos::JUSTIFY_CENTER);$printer -> text("!Llene sus datos y deposite este ticket en las ánforas para el sorteo!\n");$printer -> feed();$printer -> selectPrintMode();$printer -> text("Nombres/Rzon Soc.:__________________________________________________________________\n");$printer -> text("Direcc.:__________________________________\n");$printer -> text("DNI/RUC.:_________________________________\n");$printer -> text("Teléfono.:________________________________\n");$printer -> feed();$printer -> text("Fecha de Impr.: 05-12-2015 11:50:48\n");$printer -> text("<<No válido como documento contable>>\n");$printer -> feed();$printer -> cut();$printer -> close();
