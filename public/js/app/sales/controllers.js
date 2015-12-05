@@ -11,27 +11,100 @@
                 /*
                 ticketEntrada PIRKAS
                  */
+
+                $scope.precioConcepto1 = 0;
+
                 $scope.ticket = {};
-                $scope.ticket.concepto = 'ingreso';
+                $scope.ticket.concepto = 1;
+                $scope.ticket.cantidad = 1;
+                $scope.ticket.montoFinal = 3;
                 $scope.setVisibleOtro = false;
-                $scope.setVisibleNuevoConcepto = false;
+                $scope.setVisibleNuevoConcepto = true;
+
+                $scope.clean = function(){
+                    $scope.ticket = {};
+                    $scope.ticket.concepto = 1;
+                    $scope.ticket.cantidad = 1;
+                    $scope.ticket.montoFinal = 3;
+                    $scope.ticket.precioUnitFinal = $scope.precioConcepto1; //para no pedir el valor al CRUD del concepto 1.
+                    $scope.setVisibleOtro = false;
+                    $scope.setVisibleNuevoConcepto = true;
+                }
+
                 $scope.selectConcepto = function(){
 
                     if($scope.ticket.concepto == 'otro'){
                         $scope.setVisibleOtro = true;
+                        $scope.ticket.montoFinal = $scope.ticket.precioUnitFinal * $scope.ticket.cantidad;
                     }else{
                         $scope.setVisibleOtro = false;
+                        $scope.ticket.precioUnitFinal = $scope.conceptosMostrables[$scope.ticket.concepto-1].precioUnit;
+                        $scope.ticket.montoFinal = $scope.conceptosMostrables[$scope.ticket.concepto-1].precioUnit * $scope.ticket.cantidad;
+
                     }
+
+
                 };
 
                 $scope.agrega = function(){
-                    if($scope.ticket.nombreConcepto == 'agregar'){
+                    //$log.log($scope.ticket.nombreConcepto);
+                    if($scope.ticket.nombreConcepto == undefined ){
                         $scope.setVisibleNuevoConcepto = true;
                     }else{
                         $scope.setVisibleNuevoConcepto = false;
                     }
                 }
-                $scope.ticket.nombreConcepto = '1';
+                //$scope.ticket.nombreConcepto = '4';
+
+                $scope.createConcepto = function(){
+
+                    if ($scope.ticket.nuevoConcepto.length > 0) {
+                        crudServiceOrders.create($scope.ticket, 'conceptos').then(function (data) {
+
+                            if (data['estado'] == true) {
+                                //$scope.success = data['nombres'];
+                                alert('grabado correctamente');
+                                $scope.conceptosNoMostrables.push(data['data']);
+                                $scope.ticket.nombreConcepto = data['data'];
+                                $scope.setVisibleNuevoConcepto = false;
+                                $log.log(data['data']);
+                                //$location.path('/brands');
+
+                            } else {
+                                //$scope.errors = data;
+                                alert('datos repetidos o erroneos');
+
+                            }
+                        });
+                    }
+                }
+
+                $scope.createTicket = function(){
+                    var $btn = $('#btn_generate').button('loading');
+                    if ($scope.cashfinal.estado=='1') {
+
+                        //$log.log($scope.cashfinal);
+
+                        $scope.ticket.cashfinal = $scope.cashfinal.id;
+                        //$scope.ticket.cashHeader_id = $scope.cash1.cashHeader_id;
+
+                        crudServiceOrders.create($scope.ticket, 'tickets').then(function (data) {
+                            if(data['estado'] == true) {
+                                $btn.button('reset');
+                            }else{
+                                alert('Ticket no generado. Pruebe abriendo caja.');
+                                $btn.button('reset');
+                            }
+                        });
+
+                    }else{
+                        alert('Caja Cerrada');
+                        $btn.button('reset');
+                        //
+                    }
+                }
+
+
 
                 /*
                 FIN TicketEntrada pirkas
@@ -158,6 +231,7 @@
                         crudServiceOrders.search('cashes',$scope.cash1.cashHeader_id,pagActual).then(function (data){
                             $scope.cashes = data.data;
                             $scope.cashfinal=$scope.cashes[$scope.cashes.length-1];
+                            //$log.log($scope.cashfinal);
                         });
                     });    
                 }
@@ -209,50 +283,65 @@
                     });
 
                 }else{
-                    crudServiceOrders.paginate('sales',1).then(function (data) {
+                    crudServiceOrders.select('conceptos','mostrables').then(function (data){
+                        $scope.conceptosMostrables = data;
+                        $scope.ticket.precioUnitFinal = data[0].precioUnit;
+                        $scope.precioConcepto1 = data[0].precioUnit;
+                        //alert(data[0].precioUnit);
+                    });
+                    crudServiceOrders.select('conceptos','noMostrables').then(function (data){
+                        $scope.conceptosNoMostrables = data;
+                        //$scope.ticket.nombreConcepto = 3;
+                    });
+                    /*crudServiceOrders.paginate('sales',1).then(function (data) {
                         $scope.orders = data.data;
                         $scope.maxSize = 5;
                         $scope.totalItems = data.total;
                         $scope.currentPage = data.current_page;
                         $scope.itemsperPage = 15;
 
-                    });
+                    });*/
 
                     crudServiceOrders.select('stores','select').then(function (data) {                        
                         $scope.stores = data;
 
                     });
-                    crudServiceOrders.search('warehousesStore',$scope.store.id,1).then(function (data){
-                        $scope.warehouses=data.data;
+                    //crudServiceOrders.search('warehousesStore',$scope.store.id,1).then(function (data){
+                    //    $scope.warehouses=data.data;
                         //$log.log($scope.warehouses);
-                    });
-                    crudServiceOrders.reportProWare('productsFavoritos',$scope.store.id,$scope.warehouse.id,'1').then(function(data){    
-                        $scope.favoritos=data;
+                    //});
+                    //crudServiceOrders.reportProWare('productsFavoritos',$scope.store.id,$scope.warehouse.id,'1').then(function(data){
+                    //    $scope.favoritos=data;
                         //$log.log($scope.favoritos);
-                    });
+                    //});
 
                     crudServiceOrders.search('searchHeaders',$scope.store.id,1).then(function (data){
                         $scope.cashHeaders=data;
-                        $log.log($scope.cashHeaders);
+                        //$log.log($scope.cashHeaders);
                     });
 
                     crudServiceOrders.search('cashes',$scope.cash1.cashHeader_id,1).then(function (data){
                         var canCashes=data.total;
                         var pagActual=Math.ceil(canCashes/15);
-                        crudServiceOrders.search('cashes',$scope.cash1.cashHeader_id,pagActual).then(function (data){
-                            $scope.cashes = data.data;
-                            $scope.cashfinal=$scope.cashes[$scope.cashes.length-1];
-                            //$log.log($scope.cashfinal);
-                            crudServiceOrders.search('detCashesSale',$scope.cashfinal.id,1).then(function (data){
-                            $scope.detCashes = data.data;
-                            $scope.maxSize1 = 5;
-                                $scope.totalItems1 = data.total;
-                                $scope.currentPage1 = data.current_page;
-                                $scope.itemsperPage1 = 15;
+                        //if ($scope.cashfinal.estado == 0) {
+                            //alert("Caja Cerrada");
+                        //}else {
+                            //alert($scope.cashfinal.estado);
+                            crudServiceOrders.search('cashes', $scope.cash1.cashHeader_id, pagActual).then(function (data) {
+                                $scope.cashes = data.data;
+                                $scope.cashfinal = $scope.cashes[$scope.cashes.length - 1];
+                                //$log.log($scope.cashfinal);
+                                /*crudServiceOrders.search('detCashesSale', $scope.cashfinal.id, 1).then(function (data) {
+                                    $scope.detCashes = data.data;
+                                    $scope.maxSize1 = 5;
+                                    $scope.totalItems1 = data.total;
+                                    $scope.currentPage1 = data.current_page;
+                                    $scope.itemsperPage1 = 15;
 
-                                //$log.log($scope.detCashes);
+                                    //$log.log($scope.detCashes);
+                                });*/
                             });
-                        });
+                        //}
                     });
                     //$scope.detCashes={};
                     
@@ -415,6 +504,7 @@
                                     $scope.totalItems1 = data.total;
                                     $scope.currentPage1 = data.current_page;
                                     $scope.itemsperPage1 = 15;
+
                                 });
                             });
                         });

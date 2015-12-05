@@ -6,12 +6,11 @@ class DetCashManager extends BaseManager{
 
     public function getRules(){
         $rules = [
-            'fecha' => 'required',
-            'hora' => 'required',
-            'montoCaja' => 'required',
+            'fechaTransaccion' => 'required',
+            'montoCaja' => '',
             'montoMovimientoTarjeta' => '',
             'montoMovimientoEfectivo' => '',
-            'montoFinal' => 'required',
+            'montoFinal' => '',
             'estado' => '',
             'observacion' => '',
             'cashMotive_id' => 'required',

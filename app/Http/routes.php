@@ -33,6 +33,16 @@ Route::get('status', function(){
         ->header('Content-Type', 'text/html; charset=UTF-8');
 });
 
+/*
+ * RUTAS DE PIRKASENTRADA
+ * */
+Route::get('api/conceptos/mostrables','ConceptosController@conceptosmostrables');
+Route::get('api/conceptos/noMostrables','ConceptosController@conceptosNoMostrables');
+Route::post('api/conceptos/create','ConceptosController@create');
+
+Route::post('api/tickets/create','TicketsController@create');
+Route::get('api/tickets/generateTicketPaper','TicketsController@generateTicketPaper');
+/*FIN DE RUTAS PIRKAS ENTRADA*/
 // Authentication routes...
 Route::get('auth/login', 'Auth\AuthController@getLogin');
 Route::post('auth/login', 'Auth\AuthController@postLogin');
@@ -577,6 +587,7 @@ Route::post('api/cashes/destroy',['as'=>'person_destroy', 'uses'=>'CashesControl
 Route::get('api/cashes/search/{q?}',['as'=>'person_search', 'uses'=>'CashesController@search']);
 Route::get('api/cashes/find/{id}',['as'=>'person_find', 'uses'=>'CashesController@find']);
 //Route::get('api/cashes/select','SuppliersController@selectSupliers');
+Route::post('api/cashes/printCash/{id}','CashesController@printCash');
 
 //-----------------------------DetCashes---------------------------
 Route::get('detCashes',['as'=>'person','uses'=>'DetCashController@index']);

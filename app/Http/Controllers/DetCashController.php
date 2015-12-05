@@ -40,13 +40,13 @@ class DetCashController extends Controller
 
     public function search($q)
     {
-        $detCash = $this->detCashRepo->search($q);
+        $detCash = $this->detCashRepo->searchTE($q);
 
         return response()->json($detCash);
     }
     public function searchSale($q)
     {
-        $detCash = $this->detCashRepo->searchSale($q);
+        $detCash = $this->detCashRepo->searchSaleTE($q);
         return response()->json($detCash);
     }
     public function searchOrderSale($q)

@@ -16,12 +16,13 @@ class CreateCashHeadersTable extends Migration
             $table->increments('id');
             $table->string('nombre');
             $table->string('ambiente');
-            $table->tinyInteger('estado');
+            $table->boolean('estado');
             $table->string('descripcion');
             $table->string('serieTicket');
             $table->string('numeroTicket');
             $table->string('seriePrinter');
             $table->string('msje');
+            $table->string('printerName');
             $table->integer('store_id')->unsigned();
             $table->foreign('store_id')->references('id')->on('stores');
             $table->timestamps();

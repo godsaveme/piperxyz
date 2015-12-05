@@ -15,17 +15,19 @@ class CreateTicketTable extends Migration
         //
         Schema::create('ticket', function (Blueprint $table) {
             $table->increments('id');
-            $table->dateTime('fechaPedido');
+            $table->timestamp('fechaPedido');
             $table->decimal('precioUnit',10,2);
             $table->decimal('precioUnitFinal',10,2);
             $table->decimal('cantidad',10,2);
             $table->decimal('montoFinal',10,2);
-
             $table->text('notas');
-
-            $table->tinyInteger('estado');
+            $table->boolean('estado');
+            $table->integer('detCash_id')->unsigned();
+            $table->foreign('detCash_id')->references('id')->on('detCash');
+            $table->integer('concepto_id')->unsigned();
+            $table->foreign('concepto_id')->references('id')->on('concepto');
             $table->timestamps();
-            $table->dateTime('fechaAnulado');
+            $table->timestamp('fechaAnulado');
         });
     }
 

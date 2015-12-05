@@ -61,7 +61,16 @@
 
 
                               <div class="form-group">
-                                  <div class="radio">
+                                  <span ng-repeat="conceptoMostrable in conceptosMostrables">
+                                      <div class="radio">
+                                          <label>
+                                              <input type="radio" name="optionsRadios" ng-model="ticket.concepto" value="@{{conceptoMostrable.id}}" ng-change="selectConcepto()" >
+                                              @{{conceptoMostrable.nombre}}
+                                          </label>
+                                      </div>
+                                      </span>
+
+                                  <!--<div class="radio">
                                       <label>
                                           <input type="radio" name="optionsRadios" id="optionsRadios1" ng-model="ticket.concepto" value="ingreso" ng-change="selectConcepto()" >
                                           INGRESO
@@ -73,12 +82,14 @@
                                           BOTE
                                       </label>
                                   </div>
+                                  -->
                                   <div class="radio">
                                       <label>
                                           <input type="radio" name="optionsRadios" ng-model="ticket.concepto" value="otro" ng-change="selectConcepto()">
-                                          OTRO
+                                          Otro
                                       </label>
                                   </div>
+
                               </div>
 
                           </div>
@@ -103,14 +114,28 @@
                               <div class="form-group">
 
 
-                                  <select  class="form-control" name="name" placeholder="##" ng-model="ticket.nombreConcepto"  ng-change="agrega()">
+                                  <!--<select class="form-control" name="name" ng-model="ticket.nombreConcepto"  ng-change="agrega()">
+                                      <option value="agregar">-- Agregar --</option>
+                                      <option ng-repeat="conceptoNoMostrable in conceptosNoMostrables" value="@{{conceptoNoMostrable.id}}">@{{conceptoNoMostrable.nombre}}</option>
+                                  </select>-->
+
+
+                                  <select class="form-control" name="name" ng-options="conceptoNoMostrable.nombre for conceptoNoMostrable in conceptosNoMostrables track by conceptoNoMostrable.id"
+                                          ng-model="ticket.nombreConcepto"  ng-change="agrega()">
+                                      <option value="">-- Agregar --</option>
+                                       </select>
+
+
+
+
+                                  <!--<select  class="form-control" name="name" placeholder="##" ng-model="ticket.nombreConcepto"  ng-change="agrega()">
                                       <option value="agregar">-- Agregar --</option>
                                       <option value="1">CAMPING</option>
                                       <option value="2">PRECIO ESPECIAL A COLEGIO</option>
                                       <option value="3">PRECIO ESPECIAL A IGLESIA</option>
                                       <option value="4">EVENTO</option>
 
-                                      </select>
+                                      </select>-->
 
                               </div>
 
@@ -124,21 +149,21 @@
                                       <label for="">Nuevo Concepto:</label>
                                   </div>
                                   <div class="col-md-7">
-                                      <input type="text" class="form-control" placeholder="..." ng-model="yvgy">
+                                      <input type="text" class="form-control" placeholder="..." ng-model="ticket.nuevoConcepto">
                                   </div>
                                   <div class="col-md-2">
-                              <button class="btn btn-default pull-right">Agregar</button>
+                              <button class="btn btn-default pull-right" ng-click="createConcepto()">Agregar</button>
                                   </div>
                               </div>
                           </div>
 
 
                       </div>
-
+                      
                       <div class="row">
                           <div class="col-md-1 col-md-offset-2 ">
                               <div class="form-group">
-                                  <label for="" class="control-label">PRECIO:</label>
+                                  <label for="" class="control-label">PRECIO: S/.</label>
                               </div>
 
                           </div>
@@ -148,7 +173,8 @@
                               <div class="form-group">
 
 
-                                  <input type="number" class="form-control" name="name" placeholder="##" ng-model="ticket.precioUnitFinal" required ng-disabled="!setVisibleOtro">
+                                  <input  type="number" string-to-number class="form-control" name="name" placeholder="##" ng-model="ticket.precioUnitFinal" required ng-disabled="!setVisibleOtro" ng-change="selectConcepto()" >
+
 
                               </div>
 
@@ -172,7 +198,7 @@
                               <div class="form-group">
 
 
-                                  <input type="number" class="form-control" name="name" placeholder="##" ng-model="ticket.cantidad" required>
+                                  <input type="number" class="form-control" name="name" placeholder="##" ng-model="ticket.cantidad" required ng-change="selectConcepto()">
 
                               </div>
 
@@ -185,7 +211,7 @@
                       <div class="row">
                           <div class="col-md-1 col-md-offset-2 ">
                               <div class="form-group">
-                                  <label for="" class="control-label">TOTAL:</label>
+                                  <label for="" class="control-label">TOTAL: S/.</label>
                               </div>
 
                           </div>
@@ -207,10 +233,10 @@
                       </div>
                       <div class="row">
                           <div class="col-md-1 col-md-offset-3 ">
-                                <button type="" class="btn btn-info pull-right">GENERAR</button>
+                                <button id="btn_generate" data-loading-text="procesando..." type="" class="btn btn-info pull-right" ng-click="createTicket()">GENERAR</button>
                           </div>
                           <div class="col-md-1 col-md-offset-1 ">
-                              <button type="" class="btn btn-warning pull-right">LIMPIAR</button>
+                              <button type="" class="btn btn-warning pull-right" ng-click="clean()">LIMPIAR</button>
                           </div>
 
 
@@ -222,13 +248,18 @@
 
                   <div class="tab-pane" id="tab_2">
                     <table class="table table-bordered">
+
+                        <h3>Cantidad de Tickets Emitidos: @{{ totalItems1 }}.</h3>
                     <tr>
                       <th style="width: 10px">#</th>
                       <th>Fecha</th>
-                      <th>Hora</th>
+
                       <th>Tipo</th>
+                        <th>Ticket N°</th>
                       
-                      <th>S/.Tarjeta</th>
+                      <th>Concepto</th>
+                        <th>S/. Costo Unitario</th>
+                        <th>Cantidad</th>
                       <th>S/.Efectivo</th>
                       
                       <th>Ver Venta</th>
@@ -236,15 +267,18 @@
                     
                     <tr ng-repeat="row in detCashes">
                       <td>@{{$index + 1}}</td>
-                      <td>@{{row.fecha}}</td>
-                      <td>@{{row.hora}}</td>
+                      <td>@{{row.fechaTransaccion}}</td>
+
                       <td>@{{row.cash_motive.nombre}}</td>
+                        <td>@{{ row.ticket.id }}</td>
                       
-                      <td>@{{row.montoMovimientoTarjeta}}</td>
+                      <td>@{{row.concepto[0].nombre}}</td>
+                        <td>@{{ row.ticket.precioUnitFinal }}</td>
+                        <td>@{{ row.ticket.cantidad }}</td>
                       <td>@{{row.montoMovimientoEfectivo}}</td>
                       
-                      <td ng-if="row.cashMotive_id==1 || row.cashMotive_id==14"><a href="/sales/edit/@{{row.observacion}}" target="_blank">ver venta</a></td>
-                      <td ng-if="row.cashMotive_id!=1 && row.cashMotive_id!=14">@{{row.observacion}}</td>
+                      <td ng-if="row.cashMotive_id==1"><a href="/sales/create">ver venta</a></td>
+                      <!--<td ng-if="row.cashMotive_id!=1 && row.cashMotive_id!=14">@{{row.observacion}}</td>-->
                     </tr>                   
                   </table>
                   <div class="box-footer clearfix">
@@ -276,6 +310,7 @@
                           <select class="form-control" name="" ng-model="cash1.cashHeader_id" ng-options="item.id as item.nombre for item in cashHeaders">
                           <option value="">--Elije Caja--</option>
                           </select>
+                            @{{cash1.cashHeader_id}}
                         </div>
                       </div>
 

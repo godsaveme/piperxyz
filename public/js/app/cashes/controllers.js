@@ -15,6 +15,30 @@
                 $scope.stores={};
                 $scope.bandera=true;
                 $scope.banderaAbrirCaja=false;
+
+
+                /*
+                * FX Ticket Entrada
+                * */
+                $scope.printCash = function(row){
+                    //alert('holi');
+
+                    crudService.byforeingKey('cashes','printCash',row.id).then(function(data){
+
+
+                        if(data['estado'] == true){
+                            alert('Resumen Impreso');
+                        }else{
+                            alert('Error. Consulte con el administrador del sistema');
+                        }
+
+                    });
+                }
+                /*
+                * FIN
+                * */
+
+
                 $scope.mostrarCajas = function () {
 
                     crudService.search('searchHeaders',$scope.stores.id,1).then(function (data){
@@ -113,7 +137,8 @@
                                 alert('Caja Cerrada');
                                 $location.path('/cashes');
                             }else{
-                                $scope.errors =data;
+                                //$scope.errors =data;
+                                alert(data['msje']);
                             }
                         });
                         }
@@ -178,6 +203,16 @@
                         $scope.cash = data;
                         $scope.buscar=$scope.cash.id;
                         //$log.log($scope.cash);
+
+                        /*function select(uri,select)
+                        {
+                            var deferred = $q.defer();
+                            $http.get('/api/'+uri+'/'+select)
+                        */
+
+                        //crudService.select('cashes','calcularMontoTeorico').then(function(data){
+                        //    $scope.cash.montoBruto = data;
+                        //});
 
                         crudService.search('detCashes',$scope.cash.id,1).then(function (data){
                            $scope.detCashes = data.data;

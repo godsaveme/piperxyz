@@ -14,13 +14,12 @@ class CreateDetCashTable extends Migration
     {
         Schema::create('detCash', function (Blueprint $table) {
             $table->increments('id');
-            $table->date('fecha');
-            $table->time('hora');
+            $table->timestamp('fechaTransaccion');
             $table->decimal('montoCaja',10,2);
             $table->decimal('montoMovimientoTarjeta',10,2);
             $table->decimal('montoMovimientoEfectivo',10,2);
             $table->decimal('montoFinal',10,2);
-            $table->tinyInteger('estado');
+            $table->boolean('estado');
             $table->string('observacion');
             $table->integer('cashMotive_id')->unsigned();
             $table->foreign('cashMotive_id')->references('id')->on('cashMotives');

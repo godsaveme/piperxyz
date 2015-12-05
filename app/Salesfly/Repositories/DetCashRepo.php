@@ -17,6 +17,15 @@ class DetCashRepo extends BaseRepo{
                     ->paginate(15);
         return $detCashs;
     }
+
+    public function searchTE($q)
+    {
+        $detCashs =DetCash::with('cashMotive','ticket','concepto')
+            ->where('cash_id','=', $q)
+            ->paginate(15);
+        return $detCashs;
+    }
+
     public function searchSale($q)
     {
         $detCashs =DetCash::with('cashMotive')
@@ -27,7 +36,19 @@ class DetCashRepo extends BaseRepo{
                         //->orWhere('cashMotive_id','=','14')
                     ->paginate(15);
         return $detCashs; 
-    } 
+    }
+    public function searchSaleTE($q)
+    {
+        $detCashs =DetCash::with('cashMotive','ticket','concepto')
+            //->join('concepto','concepto.id','=','ticket.concepto_id')
+            ->where('cash_id','=', $q)
+            ->where('cashMotive_id','=','1')
+            ->orWhere('cash_id','=', $q)
+            ->where('cashMotive_id','=','14')
+            //->orWhere('cashMotive_id','=','14')
+            ->paginate(15);
+        return $detCashs;
+    }
     public function searchOrderSale($q)
     {
         $detCashs =DetCash::with('cashMotive')

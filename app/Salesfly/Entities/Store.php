@@ -22,4 +22,6 @@ class Store extends \Eloquent {
         return $this->hasMany('warehouse');
     }
 
+    //public function cashHeaders()
+
 }

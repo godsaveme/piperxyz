@@ -16,4 +16,10 @@ class Cash extends \Eloquent {
     						'estado',
     						'notas',
     						'cashHeader_id'];
+
+	public function cashHeader()
+	{
+		return $this->belongsTo('Salesfly\Salesfly\Entities\CashHeader','cashHeader_id');
+	}
+
 }

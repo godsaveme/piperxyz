@@ -33,7 +33,7 @@
                     <div class="col-md-1">
                     </div>
                       <div class="col-md-4">
-                        <a ng-click="rutaMovimiento()" ng-href="@{{rutaDetCash}}"  target="_self" type="submit" class="btn btn-primary" ng-if="cash.estado==1">Agregar Movimiento</a>
+                        <a ng-click="rutaMovimiento()" ng-href="@{{rutaDetCash}}"  target="_self" type="submit" class="btn btn-primary" ng-if="cash.estado==1" disabled>Agregar Movimiento</a>
                       </div>
                       <div class="col-md-1">
                     </div>
@@ -140,21 +140,29 @@
                     <tr>
                       <th style="width: 10px">#</th>
                       <th>Fecha</th>
-                      <th>Hora</th>
+
                       <th>Tipo</th>
-                      <th>S/.Tarjeta</th>
+                      <th>Ticket N°</th>
+
+                      <th>Concepto</th>
+                      <th>S/. Costo Unitario</th>
+                      <th>Cantidad</th>
                       <th>S/.Efectivo</th>
                       <th>Ver Venta</th>
                     </tr>
                     
                     <tr ng-repeat="row in detCashes">
                       <td>@{{$index + 1}}</td>
-                      <td>@{{row.fecha}}</td>
-                      <td>@{{row.hora}}</td>
+                      <td>@{{row.fechaTransaccion}}</td>
+
                       <td>@{{row.cash_motive.nombre}}</td>
-                      <td>@{{row.montoMovimientoTarjeta}}</td>
+                      <td>@{{ row.ticket.id }}</td>
+
+                      <td>@{{row.concepto[0].nombre}}</td>
+                      <td>@{{ row.ticket.precioUnitFinal }}</td>
+                      <td>@{{ row.ticket.cantidad }}</td>
                       <td>@{{row.montoMovimientoEfectivo}}</td>
-                      <td ng-if="row.cashMotive_id==1 || row.cashMotive_id==13 || row.cashMotive_id==14"><a href="/sales/edit/@{{row.observacion}}" target="_blank">ver venta</a></td>
+                      <td ng-if="row.cashMotive_id==1 || row.cashMotive_id==13 || row.cashMotive_id==14"><a href="!#" target="_blank">ver venta</a></td>
                       <td ng-if="row.cashMotive_id==15 || row.cashMotive_id==16 || row.cashMotive_id==17"><a href="/orderSales/edit/@{{row.observacion}}" target="_blank">ver pedido</a></td>
                       <td ng-if="row.cashMotive_id==19 || row.cashMotive_id==20 || row.cashMotive_id==21"><a href="/separateSales/edit/@{{row.observacion}}" target="_blank">ver separado</a></td>
                       <td ng-if="row.cashMotive_id!=1 && row.cashMotive_id!=13 && row.cashMotive_id!=14 && row.cashMotive_id!=15 && row.cashMotive_id!=16 && row.cashMotive_id!=17

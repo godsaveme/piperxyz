@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
         $this->call(CashMotivesTableSeeder::class);
         $this->call(CashHeaderTableSeeder::class);
         $this->call(CashTableSeeder::class);
+        $this->call(ConceptosTableSeeder::class);
         Model::reguard();
     }
 }

@@ -20,4 +20,17 @@ class CashRepo extends BaseRepo{
                     ->paginate(15);
         return $cashes;
     }
+
+    public function calculateMontoBruto($cash_id)
+    {
+        $montoMovimientoEfectivo = \DB::table('detCash')
+                        ->where('cash_id',$cash_id)
+                        ->sum('montoMovimientoEfectivo');
+
+        $oCaja = Cash::find($cash_id);
+
+        $montoBruto = $montoMovimientoEfectivo + $oCaja->montoInicial;
+
+        return $montoBruto;
+    }
 } 

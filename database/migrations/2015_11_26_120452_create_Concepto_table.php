@@ -17,6 +17,7 @@ class CreateConceptoTable extends Migration
             $table->string('nombre');
             $table->decimal('precioUnit',10,2);
             $table->string('descripcion');
+            $table->boolean('mostrable');
             $table->timestamps();
         });
     }

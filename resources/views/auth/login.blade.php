@@ -51,7 +51,7 @@
             <div class="col-xs-8">
               <div class="checkbox icheck">
                 <label>
-                  <input type="checkbox" name="remember"> Recordar
+                  <input type="checkbox" name="remember" checked> Recordar
                 </label>
               </div>
             </div><!-- /.col -->

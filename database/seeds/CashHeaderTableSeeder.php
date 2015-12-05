@@ -20,7 +20,8 @@ class CashHeaderTableSeeder extends Seeder
             'serieTicket' => 1,
             'numeroTicket' => 1,
             'seriePrinter' => 'seriePrinter',
-            'msje' => 'Bienvenidos a las Pirkas',
+            'msje' => 'Bienvenidos a\nLas Pirkas',
+            'printerName' => 'epson-tm-t88v',
             'store_id' => 1,
             'created_at' => date("Y-m-d H:i:s"),
             'updated_at' => date("Y-m-d H:i:s")
