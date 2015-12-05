@@ -191,13 +191,14 @@ class TicketsController extends Controller {
         //$txt .= '$printer -> text("Boleta[] Factura[] / Consumo[] Detall.[]\n");';
         $txt .= '$printer -> feed();';
         $txt .= '$printer -> setJustification(Escpos::JUSTIFY_CENTER);';
-        $txt .= '$printer -> text("!Llene sus datos y deposite este ticket en las ánforas para el sorteo!\n");';
+        $txt .= '$printer -> text("¡Llene sus datos y deposite este ticket en las ánforas para el sorteo navideño!\n");';
         $txt .= '$printer -> feed();';
         $txt .= '$printer -> selectPrintMode();';
         $txt .= '$printer -> text("Nombres/Rzon Soc.:__________________________________________________________________\n");';
         $txt .= '$printer -> text("Direcc.:__________________________________\n");';
         $txt .= '$printer -> text("DNI/RUC.:_________________________________\n");';
         $txt .= '$printer -> text("Teléfono.:________________________________\n");';
+        $txt .= '$printer -> text("Correo.:__________________________________\n");';
         $txt .= '$printer -> feed();';
         $txt .= '$printer -> text("Fecha de Impr.: '.date("d-m-Y").' '.date("H:i:s").'\n");';
         $txt .= '$printer -> text("<<No válido como documento contable>>\n");';
