@@ -26,6 +26,8 @@ class CreateCashesTable extends Migration
             $table->string('notas');
             $table->integer('cashHeader_id')->unsigned();
             $table->foreign('cashHeader_id')->references('id')->on('cashHeaders');
+            $table->integer('user_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
         });
     }

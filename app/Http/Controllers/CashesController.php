@@ -7,6 +7,7 @@ use Illuminate\Routing\Controller;
 
 use Salesfly\Salesfly\Repositories\CashRepo;
 use Salesfly\Salesfly\Managers\CashManager;
+use Salesfly\User;
 
 class CashesController extends Controller
 {
@@ -61,6 +62,10 @@ class CashesController extends Controller
     {
         $cash = $this->cashRepo->getModel();
 
+        $request->merge(['user_id' => \Auth::user()->id ]);
+
+        //var_dump($request->all());
+
         $manager = new CashManager($cash,$request->all());
         $manager->save();
 
@@ -71,16 +76,17 @@ class CashesController extends Controller
         //var_dump($request->all()); die();
         $cash = $this->cashRepo->find($request->id);
 
-        $cantidadTickets = \DB::table('ticket')
+        $cantidadTickets = \DB::table('ticket') //no se utiliza
                             ->join('detCash','ticket.detCash_id','=','detCash.id')
                             ->where('cash_id',$request->id)
                             ->count('ticket.id');
 
-        //var_dump($cantidadTickets); die();
+        //var_dump($cantidadTickets);
 
-        $cantidadPersonas = \DB::table('ticket')
+        $cantidadPersonas = \DB::table('ticket') //cantidad de personas sin contar los botes
             ->join('detCash','ticket.detCash_id','=','detCash.id')
             ->where('cash_id',$request->id)
+            ->where('concepto_id','!=',2)
             ->sum('ticket.cantidad');
 
         //var_dump($cantidadPersonas); die();
@@ -89,7 +95,32 @@ class CashesController extends Controller
             ->where('cash_id',$request->id)
             ->sum('montoMovimientoEfectivo');
 
-        $montoBruto = $montoMovimientoEfectivo + $cash->montoInicial; //aqui sumo los ingresos y egresos
+        $montoTickets = \DB::table('ticket')
+            ->join('detCash','ticket.detCash_id','=','detCash.id')
+            ->where('cash_id',$request->id)
+            ->sum('ticket.montoFinal');
+
+        $montoBruto = $montoTickets + $cash->montoInicial; //aqui sumo los ingresos y egresos
+
+        //var_dump($cantidadPersonas);
+        //var_dump($montoTickets);
+        //die();
+
+        $table = \DB::select(\DB::raw('SELECT sum(ticket.cantidad) AS cantidad,concepto.nombre AS nombre,sum(ticket.montoFinal) AS total  FROM ticket INNER JOIN detCash ON ticket.detCash_id = detCash.id
+											INNER JOIN cashes ON detCash.cash_id = cashes.id
+											INNER JOIN concepto ON concepto.id = ticket.concepto_id
+
+WHERE cashes.id = 3
+GROUP BY ticket.concepto_id'));
+
+        /*foreach($table as $row)
+        {
+            var_dump($row->cantidad);
+        }
+
+        var_dump($table); die();*/
+
+
 
         if($montoBruto == $request->montoBruto){
             $manager = new CashManager($cash,$request->all());
@@ -102,11 +133,55 @@ class CashesController extends Controller
     }
 
     public function printCash($cash_id){
-        $oCash = Cash::find($cash_id);
 
+        $oCash = $this->cashRepo->find($cash_id);
 
+        //$oCash = Cash::find($cash_id);
 
-        $this->generateResumePaper($oCash);
+        $cantidadTickets = \DB::table('ticket') //no se utiliza
+        ->join('detCash','ticket.detCash_id','=','detCash.id')
+            ->where('cash_id',$cash_id)
+            ->count('ticket.id');
+
+        $cantidadPersonas = \DB::table('ticket') //cantidad de personas sin contar los botes
+        ->join('detCash','ticket.detCash_id','=','detCash.id')
+            ->where('cash_id',$cash_id)
+            ->where('concepto_id','!=',2)
+            ->sum('ticket.cantidad');
+
+        $montoTickets = \DB::table('ticket')
+            ->join('detCash','ticket.detCash_id','=','detCash.id')
+            ->where('cash_id',$cash_id)
+            ->sum('ticket.montoFinal');
+
+        //var_dump($cantidadPersonas); die();
+
+        $table = \DB::select(\DB::raw('SELECT sum(ticket.cantidad) AS cantidad,concepto.nombre AS nombre,sum(ticket.montoFinal) AS total  FROM ticket INNER JOIN detCash ON ticket.detCash_id = detCash.id
+											INNER JOIN cashes ON detCash.cash_id = cashes.id
+											INNER JOIN concepto ON concepto.id = ticket.concepto_id
+
+                                            WHERE cashes.id = '.$cash_id.'
+                                            GROUP BY ticket.concepto_id'));
+
+        $ticketIni = \DB::table('ticket')
+                    ->join('detCash','ticket.detCash_id','=','detCash.id')
+                    ->where('cash_id',$cash_id)
+                    ->OrderBy('ticket.id', 'asc')->first();
+
+        $ticketLast = \DB::table('ticket')
+            ->join('detCash','ticket.detCash_id','=','detCash.id')
+            ->where('cash_id',$cash_id)
+            ->OrderBy('ticket.id', 'desc')->first();
+
+        $userName = User::find($oCash->user_id)->name;
+
+        //var_dump($oUser); die();
+
+        //var_dump($ticketLast); die();
+
+        $this->generateResumePaper($oCash,$cantidadTickets,$cantidadPersonas,$table,$montoTickets,$ticketIni,$ticketLast,$userName);
+        //de xx1--xx2
+        //
         //var_dump($openCash->cashHeader->msje); die();
         return response()->json(['estado'=>true, 'nombre'=>$oCash->nombre]);
     }
@@ -131,7 +206,7 @@ class CashesController extends Controller
         //
     }
 
-    public function generateResumePaper($oCash){
+    public function generateResumePaper($oCash,$cantidadTickets,$cantidadPersonas,$table,$montoTickets,$ticketIni,$ticketLast,$userName){
         $txt = '<?php require_once(dirname(__FILE__) . "/escpos-php-master/Escpos.php");
 							//$logo = new EscposImage("images/productos/tostao.jpg");
 							$printer = new Escpos();
@@ -139,41 +214,35 @@ class CashesController extends Controller
                             $printer -> setJustification(Escpos::JUSTIFY_CENTER);
                             //$printer -> graphics($logo);
 							$printer -> selectPrintMode(Escpos::MODE_DOUBLE_WIDTH);
-							$printer -> text("'.$openCash->cashHeader->msje.'");
+							$printer -> text("RESUMEN DE CAJA");
 							$printer -> feed();
 							$printer -> selectPrintMode();
 							$printer -> setJustification(Escpos::JUSTIFY_LEFT);
 							$printer -> feed();
-							$printer -> text("Ticket N°: '.$oTicket->id.'");
+							$printer -> text("Cajero: '.$userName.'\n");
 							$printer -> feed();
-							$printer -> text("Fecha y Hora: '.$oTicket->fechaPedido.'\n");
+							$printer -> text("Fec.Inic/Fec.Fin: '.$oCash->fechaInicio.' - '.$oCash->fechaFin.' \n");
+							$printer -> feed();
+							$printer -> text("Tick.Inic/Tick.Fin: '.$ticketIni->id.' - '.$ticketLast->id.' \n");
+							$printer -> text("# Tickets: '.$cantidadTickets.'");
+							$printer -> feed();
+							$printer -> text("# Personas: '.$cantidadPersonas.'\n");
 							$printer -> text("------------------------------------------\n");
-							$printer -> text("Concepto: ");
-                            $printer -> text("'.$oTicket->concepto->nombre.'");
-                            $printer -> feed();
-                            $printer -> text("Precio Unit. S/.: ");
-                            $printer -> text("'.$oTicket->precioUnitFinal.'");
-                            $printer -> feed();
-                            $printer -> text("Cantidad: ");
-                            $printer -> text("'.$oTicket->cantidad.'");
-                            $printer -> feed();
-                            $printer -> text("TOTAL S/.: ");
-                            $printer -> text("'.number_format($oTicket->montoFinal,2).'");
-                            $printer -> feed();
+							$printer -> setEmphasis(true);
+							$printer -> text("Cant.     Concepto                 Total\n");
+                            $printer -> setEmphasis(false);';
 
+                    foreach($table as $row){
+                        $txt .= '$printer -> text(" '.$row->cantidad.' '.str_pad(substr($row->nombre,0,24),24,' ').' S/.'.$row->total.' \n");';
+                    }
 
-							$printer -> text("------------------------------------------\n");';
-
-
-
-        //$txt .= '$printer -> text("------------------------------------------------\n");';
-        //$txt .= '$printer -> text("Boleta[] Factura[] / Consumo[] Detall.[]\n");';
-        $txt .= '$printer -> text("Nombres/Rzon Soc.:________________________\n");';
-        $txt .= '$printer -> text("Direcc.:__________________________________\n");';
-        $txt .= '$printer -> text("DNI/RUC.:_________________________________\n");';
+        $txt .= '$printer -> text("------------------------------------------\n");';
+        $txt .= '$printer -> setEmphasis(true);';
+        $txt .= '$printer -> text("Monto Total Tickets S/. '.$montoTickets.'\n");';
+        $txt .= '$printer -> setEmphasis(false);';
         $txt .= '$printer -> feed();';
         $txt .= '$printer -> text("Fecha de Impr.: '.date("d-m-Y").' '.date("H:i:s").'\n");';
-        $txt .= '$printer -> text("<<No válido como documento contable>>\n");';
+        $txt .= '$printer -> text("**No válido como documento contable**\n");';
         $txt .= '$printer -> feed();';
         $txt .= '$printer -> cut();';
         $txt .= '$printer -> close();';
@@ -185,7 +254,7 @@ class CashesController extends Controller
         //$cmd = 'lpr -P Photosmart-Plus-B209a-m /var/www/html/4Rest/public/newfile.php';
         shell_exec($cmd);//exec('sudo -u myuser ls /');
 
-        $cmd2 = 'lpr -P '.$openCash->cashHeader->printerName.' -o raw '.base_path("resources/").'ticket.txt';
+        $cmd2 = 'lpr -P '.$oCash->cashHeader->printerName.' -o raw '.base_path("resources/").'ticket.txt';
         shell_exec($cmd2);
 
         return response()->json('true');

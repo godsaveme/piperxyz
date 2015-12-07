@@ -23,6 +23,8 @@
                 $scope.printCash = function(row){
                     //alert('holi');
 
+                    //alert(row.id);
+
                     crudService.byforeingKey('cashes','printCash',row.id).then(function(data){
 
 

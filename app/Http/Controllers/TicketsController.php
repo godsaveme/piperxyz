@@ -10,6 +10,7 @@ use Salesfly\Salesfly\Repositories\TicketRepo;
 use Salesfly\Salesfly\Managers\TicketManager;
 use Salesfly\Salesfly\Repositories\DetCashRepo;
 use Salesfly\Salesfly\Managers\DetCashManager;
+use Salesfly\User;
 
 class TicketsController extends Controller {
 
@@ -103,7 +104,8 @@ class TicketsController extends Controller {
             //Event::fire('update.Ttype',$Ttype->all());
             \DB::commit();
             //$oEmpresa = \Salesfly\Salesfly\Entities\Store::find(1);
-            $this->generateTicketPaper($oTicket,$openCash);
+            $userName = User::find($openCash->user_id)->name;
+            $this->generateTicketPaper($oTicket,$openCash,$userName);
             //var_dump($openCash->cashHeader->msje); die();
             return response()->json(['estado'=>true, 'nombre'=>$oTicket->nombre]);
         }
@@ -152,7 +154,7 @@ class TicketsController extends Controller {
         return response()->json($types);
     }
 
-    public function generateTicketPaper($oTicket,$openCash){
+    public function generateTicketPaper($oTicket,$openCash,$userName){
         $txt = '<?php require_once(dirname(__FILE__) . "/escpos-php-master/Escpos.php");
 							//$logo = new EscposImage("images/productos/tostao.jpg");
 							$printer = new Escpos();
@@ -168,9 +170,13 @@ class TicketsController extends Controller {
 							$printer -> text("Ticket N°: '.$oTicket->id.'");
 							$printer -> feed();
 							$printer -> text("Fecha y Hora: '.$oTicket->fechaPedido.'\n");
+							$printer -> text("Cajero: '.$userName.'");
+							$printer -> feed();
 							$printer -> text("------------------------------------------\n");
 							$printer -> text("Concepto: ");
+							$printer -> setEmphasis(true);
                             $printer -> text("'.$oTicket->concepto->nombre.'");
+                            $printer -> setEmphasis(false);
                             $printer -> feed();
                             $printer -> text("Precio Unit. S/.: ");
                             $printer -> text("'.$oTicket->precioUnitFinal.'");
@@ -179,7 +185,9 @@ class TicketsController extends Controller {
                             $printer -> text("'.$oTicket->cantidad.'");
                             $printer -> feed();
                             $printer -> text("TOTAL S/.: ");
+                            $printer -> setEmphasis(true);
                             $printer -> text("'.number_format($oTicket->montoFinal,2).'");
+                            $printer -> setEmphasis(false);
                             $printer -> feed();
 
 

@@ -587,7 +587,7 @@ Route::post('api/cashes/destroy',['as'=>'person_destroy', 'uses'=>'CashesControl
 Route::get('api/cashes/search/{q?}',['as'=>'person_search', 'uses'=>'CashesController@search']);
 Route::get('api/cashes/find/{id}',['as'=>'person_find', 'uses'=>'CashesController@find']);
 //Route::get('api/cashes/select','SuppliersController@selectSupliers');
-Route::post('api/cashes/printCash/{id}','CashesController@printCash');
+Route::get('api/cashes/printCash/{id}','CashesController@printCash');
 
 //-----------------------------DetCashes---------------------------
 Route::get('detCashes',['as'=>'person','uses'=>'DetCashController@index']);

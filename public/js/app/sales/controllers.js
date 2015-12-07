@@ -235,6 +235,18 @@
                         });
                     });    
                 }
+
+                $scope.mostrarCashFinal = function (){
+                    crudServiceOrders.search('cashes',$scope.cash1.cashHeader_id,1).then(function (data){
+                        var canCashes=data.total;
+                        var pagActual=Math.ceil(canCashes/15);
+                        crudServiceOrders.search('cashes',$scope.cash1.cashHeader_id,pagActual).then(function (data){
+                            $scope.cashes = data.data;
+                            $scope.cashfinal=$scope.cashes[$scope.cashes.length-1];
+                            //$log.log($scope.cashfinal);
+                        });
+                    });
+                }
                 var id = $routeParams.id;
 
                 if(id)
