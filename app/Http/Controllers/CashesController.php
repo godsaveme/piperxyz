@@ -100,6 +100,7 @@ class CashesController extends Controller
         $montoTickets = \DB::table('ticket')
             ->join('detCash','ticket.detCash_id','=','detCash.id')
             ->where('cash_id',$request->id)
+            ->where('ticket.estado',1)
             ->sum('ticket.montoFinal');
 
         $montoBruto = $montoTickets + $cash->montoInicial; //aqui sumo los ingresos y egresos

@@ -24,7 +24,9 @@ class CashRepo extends BaseRepo{
     public function calculateMontoBruto($cash_id)
     {
         $montoMovimientoEfectivo = \DB::table('detCash')
+                        ->join('ticket','detCash.id','=','ticket.detCash_id')
                         ->where('cash_id',$cash_id)
+                        ->where('ticket.estado',1)
                         ->sum('montoMovimientoEfectivo');
 
         $oCaja = Cash::find($cash_id);
