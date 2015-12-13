@@ -43,8 +43,8 @@ class DetCashRepo extends BaseRepo{
             //->join('concepto','concepto.id','=','ticket.concepto_id')
             ->where('cash_id','=', $q)
             ->where('cashMotive_id','=','1')
-            ->orWhere('cash_id','=', $q)
-            ->where('cashMotive_id','=','14')
+            //->orWhere('cash_id','=', $q)
+            //->where('cashMotive_id','=','14')
             //->orWhere('cashMotive_id','=','14')
             ->paginate(15);
         return $detCashs;

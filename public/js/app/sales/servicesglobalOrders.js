@@ -175,6 +175,21 @@
                 return deferred.promise;
             }
 
+            function selectPost(area,uri,fx)
+            {
+                var deferred = $q.defer();
+                $http.post('/api/'+uri+'/'+fx, area )
+                    .success(function(data)
+                    {
+                        deferred.resolve(data);
+                    }
+                ).error(function(data)
+                    {
+                        alert('Error.');
+                    });
+                return deferred.promise;
+            }
+
             function getPres()
             {
                 return $oPresentacion;
@@ -224,7 +239,7 @@
                 getPres, setPres,
                 editFavoritoId,editFavoritoId,
                 reportcliente,reportcliente,
-                buquedarapida,buquedarapida
+                buquedarapida,buquedarapida,selectPost
             }
         }])
         .factory('socketService', function ($rootScope) {

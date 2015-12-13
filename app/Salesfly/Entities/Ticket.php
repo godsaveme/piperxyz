@@ -16,7 +16,8 @@ class Ticket extends \Eloquent {
         'estado',
         'detCash_id',
         'concepto_id',
-        'fechaAnulado'
+        'fechaAnulado',
+        'motivo'
     ];
 
     public function concepto()

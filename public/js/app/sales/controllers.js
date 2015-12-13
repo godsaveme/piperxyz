@@ -20,6 +20,8 @@
                 $scope.ticket.montoFinal = 3;
                 $scope.setVisibleOtro = false;
                 $scope.setVisibleNuevoConcepto = true;
+                $scope.resumenCaja = {};
+                $scope.resumenCaja.table = [];
 
                 $scope.clean = function(){
                     $scope.ticket = {};
@@ -104,6 +106,80 @@
                     }
                 }
 
+                $scope.anularTicket = function() {
+                    var r = confirm("¿Desea anular realmente el ticket?");
+                    if (r == true) {
+                        //x = "You pressed OK!";
+                        //function byforeingKey(uri,fx,id){
+                        //    var deferred = $q.defer();
+                        //    $http.get('/api/'+uri+'/'+fx+'/'+id)
+                        /*crudServiceOrders.byforeingKey('tickets','anularTicket',$scope.ticketAnul).then
+                        (
+                            function (data){
+                                if(data['estado'] == true){
+                                    alert(data['msje']);
+                                }else{
+                                    alert(data['msje']);
+                                }
+                            }
+                        )*/
+
+                        //function selectPost(area,uri,fx)
+                        //{
+                          //  var deferred = $q.defer();
+                           // $http.post('/api/'+uri+'/'+fx, area )
+
+                        crudServiceOrders.selectPost($scope.ticketAnul,'tickets','anularTicket').then
+                        (
+                            function (data){
+                                if(data['estado'] == true){
+                                    alert(data['msje']);
+                                    $('#viewAnularTicket').modal('hide');
+                                }else{
+                                    alert(data['msje']);
+                                }
+                            }
+                        )
+
+
+                    } else {
+                        $log.log($scope.ticketAnul);
+                        //x = "You pressed Cancel!";
+                    }
+                };
+
+                $scope.passData = function(row){
+                    $scope.ticketAnul = row;
+                    $scope.ticketAnul.password = '';
+                    $scope.ticketAnul.motivo = '';
+                    $log.log($scope.ticketAnul);
+                };
+
+                $('#viewAnularTicket').on('shown.bs.modal', function () {
+
+                    //$scope.ticketAnul.password = '';
+                });
+
+                $scope.resumeCaja = function(row){
+                    //crudService.byforeingKey('cashes','resumenCaja',$scope.cashfinal.id).then(function(data){
+                    crudServiceOrders.byforeingKey('cashes','resumenCaja',$scope.cashfinal.id).then
+                    (
+                        function (data){
+                            if(data.estado == true){
+
+                                    $scope.resumenCaja = data.data;
+                                    $scope.reTable = data.data.table;
+                                //alert('holi');
+                                $log.log(data.data.table);
+
+
+                            }else{
+                                alert(data['msje']);
+                            }
+                        }
+                    )
+
+                }
 
 
                 /*
@@ -225,7 +301,7 @@
                     crudServiceOrders.search('warehousesStore',$scope.store.id,1).then(function (data){
                         $scope.warehouses=data.data;
                     });
-                    crudServiceOrders.search('cashes',$scope.cash1.cashHeader_id,1).then(function (data){
+                    /*crudServiceOrders.search('cashes',$scope.cash1.cashHeader_id,1).then(function (data){
                         var canCashes=data.total;
                         var pagActual=Math.ceil(canCashes/15);
                         crudServiceOrders.search('cashes',$scope.cash1.cashHeader_id,pagActual).then(function (data){
@@ -233,7 +309,20 @@
                             $scope.cashfinal=$scope.cashes[$scope.cashes.length-1];
                             //$log.log($scope.cashfinal);
                         });
-                    });    
+                    });
+                    */
+                    //fx para hallar la caja
+                    crudServiceOrders.select('cashes','consultarCajero').then(function (data){
+                        alert(data);
+                        //crudServiceOrders.byforeingKey('cashes','cashFinal',data).then(function (data){
+                        //
+                        //});
+                    });
+                    //function byforeingKey(uri,fx,id){
+                    //    var deferred = $q.defer();
+                    //    $http.get('/api/'+uri+'/'+fx+'/'+id)
+
+
                 }
 
                 $scope.mostrarCashFinal = function (){
@@ -305,55 +394,30 @@
                         $scope.conceptosNoMostrables = data;
                         //$scope.ticket.nombreConcepto = 3;
                     });
-                    /*crudServiceOrders.paginate('sales',1).then(function (data) {
-                        $scope.orders = data.data;
-                        $scope.maxSize = 5;
-                        $scope.totalItems = data.total;
-                        $scope.currentPage = data.current_page;
-                        $scope.itemsperPage = 15;
 
-                    });*/
+
 
                     crudServiceOrders.select('stores','select').then(function (data) {                        
                         $scope.stores = data;
 
                     });
-                    //crudServiceOrders.search('warehousesStore',$scope.store.id,1).then(function (data){
-                    //    $scope.warehouses=data.data;
-                        //$log.log($scope.warehouses);
-                    //});
-                    //crudServiceOrders.reportProWare('productsFavoritos',$scope.store.id,$scope.warehouse.id,'1').then(function(data){
-                    //    $scope.favoritos=data;
-                        //$log.log($scope.favoritos);
-                    //});
+
 
                     crudServiceOrders.search('searchHeaders',$scope.store.id,1).then(function (data){
                         $scope.cashHeaders=data;
                         //$log.log($scope.cashHeaders);
                     });
 
-                    crudServiceOrders.search('cashes',$scope.cash1.cashHeader_id,1).then(function (data){
-                        var canCashes=data.total;
-                        var pagActual=Math.ceil(canCashes/15);
-                        //if ($scope.cashfinal.estado == 0) {
-                            //alert("Caja Cerrada");
-                        //}else {
-                            //alert($scope.cashfinal.estado);
-                            crudServiceOrders.search('cashes', $scope.cash1.cashHeader_id, pagActual).then(function (data) {
-                                $scope.cashes = data.data;
-                                $scope.cashfinal = $scope.cashes[$scope.cashes.length - 1];
-                                //$log.log($scope.cashfinal);
-                                /*crudServiceOrders.search('detCashesSale', $scope.cashfinal.id, 1).then(function (data) {
-                                    $scope.detCashes = data.data;
-                                    $scope.maxSize1 = 5;
-                                    $scope.totalItems1 = data.total;
-                                    $scope.currentPage1 = data.current_page;
-                                    $scope.itemsperPage1 = 15;
 
-                                    //$log.log($scope.detCashes);
-                                });*/
-                            });
-                        //}
+
+                    //fx para hallar la caja
+                    crudServiceOrders.select('cashes','consultarCajero').then(function (data){
+                        //alert(data);
+                        $scope.cashfinal = data;
+                        //$log.log(data);
+                        //crudServiceOrders.byforeingKey('cashes','cashFinal',data).then(function (data){
+                        //
+                        //});
                     });
                     //$scope.detCashes={};
                     
@@ -500,12 +564,12 @@
                     if ($scope.cashfinal.estado == 0) {       
                         //alert("Caja Cerrada");
                     }else{
-                        crudServiceOrders.search('cashes',$scope.cash1.cashHeader_id,1).then(function (data){
-                            var canCashes=data.total;
-                            var pagActual=Math.ceil(canCashes/15);
-                            crudServiceOrders.search('cashes',$scope.cash1.cashHeader_id,pagActual).then(function (data){
-                                $scope.cashes = data.data;
-                                $scope.cashfinal=$scope.cashes[$scope.cashes.length-1];
+                        //crudServiceOrders.search('cashes',$scope.cash1.cashHeader_id,1).then(function (data){
+                            //var canCashes=data.total;
+                            //var pagActual=Math.ceil(canCashes/15);
+                            //crudServiceOrders.search('cashes',$scope.cash1.cashHeader_id,pagActual).then(function (data){
+                                //$scope.cashes = data.data;
+                                //$scope.cashfinal=$scope.cashes[$scope.cashes.length-1];
                                 //$log.log($scope.cashfinal);
                                 crudServiceOrders.search('detCashesSale',$scope.cashfinal.id,1).then(function (data){
                                     //$scope.detCashes = data.data;
@@ -518,8 +582,8 @@
                                     $scope.itemsperPage1 = 15;
 
                                 });
-                            });
-                        });
+                            //});
+                        //});
                     }
                         
                 }

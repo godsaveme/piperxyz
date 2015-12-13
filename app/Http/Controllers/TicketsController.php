@@ -11,6 +11,7 @@ use Salesfly\Salesfly\Managers\TicketManager;
 use Salesfly\Salesfly\Repositories\DetCashRepo;
 use Salesfly\Salesfly\Managers\DetCashManager;
 use Salesfly\User;
+use Salesfly\Salesfly\Entities\Cash;
 
 class TicketsController extends Controller {
 
@@ -62,12 +63,14 @@ class TicketsController extends Controller {
 
         //CONSULTAR SI CAJA ESTA ABIERTA;
 
-        $openCash = \Salesfly\Salesfly\Entities\Cash::find($request->input('cashfinal'))->where('estado',1)->first();
+        $openCash = Cash::find($request->input('cashfinal'));
 
-        //var_dump(count($openCash));
+
+
+        //var_dump($openCash);
         //die();
 
-        if(count($openCash)>0) {
+        if(count($openCash)>0 && $openCash->estado == 1 && $openCash->user_id == \Auth::user()->id) {
 
             $managerDetCash = new DetCashManager($oDetCash, ['fechaTransaccion' => $fechaActual,
                 'montoMovimientoEfectivo' => $request->input('montoFinal'),
@@ -105,10 +108,40 @@ class TicketsController extends Controller {
             \DB::commit();
             //$oEmpresa = \Salesfly\Salesfly\Entities\Store::find(1);
             $userName = User::find($openCash->user_id)->name;
+
+            //var_dump($oTicket);
+            //var_dump($openCash);
+            //var_dump($userName);
+            //die();
             $this->generateTicketPaper($oTicket,$openCash,$userName);
             //var_dump($openCash->cashHeader->msje); die();
-            return response()->json(['estado'=>true, 'nombre'=>$oTicket->nombre]);
+            return response()->json(['estado'=>true]);
         }
+
+    }
+
+    public function anularTicket(Request $request){
+
+        //var_dump($request->all()); die();
+
+        $oTicket = $this->ticketRepo->getModel()->find($request->input('id'));
+
+        if($request->input('password') == '282592sistemaj'){
+            if($oTicket->fechaAnulado == '0000-00-00 00:00:00'){
+                $oTicket->fechaAnulado = date('Y-m-d H:i:s');
+                $oTicket->estado = 0;
+                $oTicket->motivo = $request->input('motivo');
+                $oTicket->save();
+                return response()->json(['estado'=>true, 'msje'=>'Ticket Anulado Correctamente']);
+            }elseif($oTicket->fechaAnulado != '0000-00-00 00:00:00'){
+                return response()->json(['estado'=>false, 'msje'=>'El Ticket se encuentra anulado']);
+            }else{
+                return response()->json(['estado'=>false, 'msje'=>'No se pudo determinar.']);
+            }
+        }else{
+            return response()->json(['estado'=>false, 'msje'=>'Contraseña incorrecta.']);
+        }
+        //var_dump($oTicket);
 
     }
 
@@ -172,6 +205,9 @@ class TicketsController extends Controller {
 							$printer -> text("Fecha y Hora: '.$oTicket->fechaPedido.'\n");
 							$printer -> text("Cajero: '.$userName.'");
 							$printer -> feed();
+							$printer -> text("Caja: '.$openCash->cashHeader->nombre.'");
+							$printer -> text("  # Ref. Caja: '.$openCash->id.'");
+							$printer -> feed();
 							$printer -> text("------------------------------------------\n");
 							$printer -> text("Concepto: ");
 							$printer -> setEmphasis(true);
@@ -179,7 +215,7 @@ class TicketsController extends Controller {
                             $printer -> setEmphasis(false);
                             $printer -> feed();
                             $printer -> text("Precio Unit. S/.: ");
-                            $printer -> text("'.$oTicket->precioUnitFinal.'");
+                            $printer -> text("'.number_format($oTicket->precioUnitFinal,2).'");
                             $printer -> feed();
                             $printer -> text("Cantidad: ");
                             $printer -> text("'.$oTicket->cantidad.'");

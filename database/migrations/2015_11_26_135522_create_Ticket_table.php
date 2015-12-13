@@ -28,6 +28,7 @@ class CreateTicketTable extends Migration
             $table->foreign('concepto_id')->references('id')->on('concepto');
             $table->timestamps();
             $table->timestamp('fechaAnulado');
+            $table->text('motivo');
         });
     }
 

@@ -41,7 +41,7 @@
                   <li class=""><a href="#tab_2" data-toggle="tab" aria-expanded="false" ng-click="actualizarCaja()">Caja Venta</a></li>
                   <li class=""><a href="#tab_3" data-toggle="tab" aria-expanded="false">Opciones</a></li>
                   <li class=""><a href="#tab_4" data-toggle="tab" aria-expanded="false">Reporte</a></li>
-                  <li class=""><a href="#tab_5" data-toggle="tab" aria-expanded="false" ng-click="">Consultas</a></li>
+                  <li class=""><a href="#tab_5" data-toggle="tab" aria-expanded="false" ng-click="resumeCaja()">Consultas</a></li>
                 </ul>
                 <div class="tab-content">
                   <div class="tab-pane active" id="tab_1">
@@ -96,6 +96,12 @@
 
 
 
+                        </div>
+                        <div class="col-md-5">
+                            <strong>Caja Abierta:</strong> @{{ cashfinal.data.nombre }} <br>
+                            <strong>Fecha de Apertura:</strong> @{{ cashfinal.fechaInicio }} <br>
+                            <strong># Ref. Caja: </strong>@{{ cashfinal.id }} <br>
+                            <strong>Abierta por: </strong>@{{ cashfinal.data.name }}
                         </div>
 
 
@@ -247,6 +253,7 @@
                   </div><!-- /.tab-pane -->
 
                   <div class="tab-pane" id="tab_2">
+                      <div class="table-responsive">
                     <table class="table table-bordered">
 
                         <h3>Cantidad de Tickets Emitidos: @{{ totalItems1 }}.</h3>
@@ -261,26 +268,30 @@
                         <th>S/. Costo Unitario</th>
                         <th>Cantidad</th>
                       <th>S/.Efectivo</th>
-                      
+                        <th>Estado</th>
+                      <th>Anular</th>
                       <th>Ver Venta</th>
                     </tr>
                     
                     <tr ng-repeat="row in detCashes">
                       <td>@{{$index + 1}}</td>
-                      <td>@{{row.fechaTransaccion}}</td>
+                      <td>@{{row.ticket.fechaPedido}}</td>
 
                       <td>@{{row.cash_motive.nombre}}</td>
-                        <td>@{{ row.ticket.id }}</td>
+                        <td class="text-danger"><strong>@{{ row.ticket.id }}</strong></td>
                       
                       <td>@{{row.concepto[0].nombre}}</td>
                         <td>@{{ row.ticket.precioUnitFinal }}</td>
                         <td>@{{ row.ticket.cantidad }}</td>
                       <td>@{{row.montoMovimientoEfectivo}}</td>
-                      
+                        <td ng-if="row.ticket.estado==1"><span class="text-success">OK</span></td><td ng-if="row.ticket.estado==0"><span class="text-danger">Anu.</span></td>
+                      <td><button type="button" class="btn btn-xs"  data-toggle="modal" data-target="#viewAnularTicket" ng-click="passData(row)">
+                              <span type="button" class="glyphicon glyphicon-remove"></span> Anular</button> </td>
                       <td ng-if="row.cashMotive_id==1"><a href="/sales/create">ver venta</a></td>
                       <!--<td ng-if="row.cashMotive_id!=1 && row.cashMotive_id!=14">@{{row.observacion}}</td>-->
                     </tr>                   
                   </table>
+                          </div>
                   <div class="box-footer clearfix">
                     <pagination total-items="totalItems1" ng-model="currentPage1" max-size="maxSize1" 
                     class="pagination-sm no-margin pull-right" items-per-page="itemsperPage1" boundary-links="true" rotate="false" 
@@ -352,6 +363,65 @@
                      </div>
 
                   </div>
+
+
+                    <div class="tab-pane" id="tab_5">
+                        <div class="row">
+                            <div class="box box-solid">
+                                <div class="box-header with-border">
+                                    <i class="fa fa-text-width"></i>
+
+                                    <h3 class="box-title">Resumen de Caja</h3>
+                                </div>
+                                <!-- /.box-header -->
+                                <div class="box-body">
+                                    <dl class="dl-horizontal">
+                                        <dt>Cajero</dt>
+                                        <dd>@{{ resumenCaja.userName }}</dd>
+                                        <dt># Ref. Caja</dt>
+                                        <dd>@{{ resumenCaja.caja.id }}</dd>
+                                        <dt>Fec.Inic/Fec.Fin</dt>
+                                        <dd>@{{resumenCaja.caja.fechaInicio}} / @{{resumenCaja.caja.fechaFin}}</dd>
+                                        <dt>Tick.Inic/Tick.Fin</dt>
+                                        <dd>@{{resumenCaja.ticketIni.id}} - @{{resumenCaja.ticketLast.id}}</dd>
+                                        <dt>#Tickets (Totales)</dt>
+                                        <dd>@{{resumenCaja.cantidadTickets | number:0}}</dd>
+                                        <dt># Tickets Anul. </dt>
+                                        <dd>@{{resumenCaja.cantidadTicketsAnulados | number:0}}</dd>
+                                        <dt># Monto Tick. Anul. </dt>
+                                        <dd>S/. @{{resumenCaja.montoTicketsAnulados}}</dd>
+                                        <dt># Personas </dt>
+                                        <dd>@{{resumenCaja.cantidadPersonas | number:0}}.(No se contabiliza Paseo en bote)</dd>
+                                        <dt>Detallado </dt>
+                                        <dd>
+                                            <table class="table table-bordered">
+                                                <tr>
+                                                    <th>Cant.</th>
+                                                    <th>Concepto</th>
+                                                    <th>Total</th>
+
+                                                </tr>
+
+                                                <tr ng-repeat="row in reTable">
+                                                    <td>@{{row.cantidad}}</td>
+                                                    <td >@{{row.nombre}}</td>
+                                                    <td >@{{row.total}}</td>
+                                                </tr>
+                                            </table>
+                                            <div ng-repeat="reTable in row">
+                                                <span>@{{ row.cantidad }}</span>
+                                            </div>
+                                        </dd>
+                                        <dt>MONTO TOTAL: </dt>
+                                        <dd><span class="text-danger"><strong>S/. @{{ resumenCaja.montoTickets }}</strong></span></dd>
+                                    </dl>
+                                </div>
+                                <!-- /.box-body -->
+                            </div>
+
+                        </div>
+
+                    </div>
 
 
 
@@ -964,6 +1034,33 @@
       </div>
     
 </body>
+</div>
+
+
+<!-- Modal -->
+<div class="modal" id="viewAnularTicket" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">¿Desea realmente eliminar el <span style="color:red;">Ticket N° @{{ticketAnul.id}}</span>?</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="">Motivo: </label> <textarea name="" id="" cols="35" rows="10" ng-model="ticketAnul.motivo">...</textarea>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="">Contraseña del Administrador: </label><input type="password" ng-model="ticketAnul.password">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">CERRAR</button>
+                <button type="button" class="btn btn-danger" ng-click="anularTicket()">ELIMINAR TICKET</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 

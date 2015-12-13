@@ -20,7 +20,8 @@ class TicketManager extends BaseManager {
             'estado'=>'required',
             'detCash_id' => 'required',
             'concepto_id'=>'required',
-            'fechaAnulado'=>''
+            'fechaAnulado'=>'',
+            'motivo' => ''
         ];
         return $rules;
     }

@@ -293,22 +293,34 @@
                     if ($scope.cash.montoInicial==undefined) {
                         alert("Ingrese monto Inicio");
                     }else{
-                       $scope.cash.fechaInicio=$scope.date.getFullYear()+'-'+($scope.date.getMonth()+1)+'-'+$scope.date.getDate()+' '+$scope.date.getHours()+':'+$scope.date.getMinutes()+':'+$scope.date.getSeconds();
-                        $scope.cash.estado='1'; 
-                        $scope.cash.montoBruto=$scope.cash.montoInicial;
-                        crudService.create($scope.cash, 'cashes').then(function (data) {
-                           
-                            if (data['estado'] == true) {
-                                $scope.success = data['nombres'];
-                                alert('grabado correctamente');
-                                //$location.path('/cashes');
-                                $scope.cargarCajasDiarias();
+                        crudService.select('cashes','consultarCajero').then(function (data){
 
-                            } else {
-                                $scope.errors = data;
+                            //$scope.cashfinal = data;
 
+                            if(data.id > 0) {
+                                alert('El cajero ya tiene abierta una caja. Ciérrela y podrá abrir otra.');
+
+                            }else{
+
+                                $scope.cash.fechaInicio = $scope.date.getFullYear() + '-' + ($scope.date.getMonth() + 1) + '-' + $scope.date.getDate() + ' ' + $scope.date.getHours() + ':' + $scope.date.getMinutes() + ':' + $scope.date.getSeconds();
+                                $scope.cash.estado = '1';
+                                $scope.cash.montoBruto = $scope.cash.montoInicial;
+                                crudService.create($scope.cash, 'cashes').then(function (data) {
+
+                                    if (data['estado'] == true) {
+                                        $scope.success = data['nombres'];
+                                        alert('grabado correctamente');
+                                        //$location.path('/cashes');
+                                        $scope.cargarCajasDiarias();
+
+                                    } else {
+                                        $scope.errors = data;
+
+                                    }
+                                });
                             }
                         });
+
                     }
                         
                     //}
