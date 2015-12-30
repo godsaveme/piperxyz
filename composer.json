@@ -12,7 +12,7 @@
         "intervention/image": "^2.3",
         "doctrine/dbal":"*",
         "barryvdh/laravel-debugbar": "^2.0",
-        "cossou/jasperphp": "dev-master"
+        "cossou/jasperphp": "^2.1"
         
 
 

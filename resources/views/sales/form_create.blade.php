@@ -239,10 +239,10 @@
                       </div>
                       <div class="row">
                           <div class="col-md-1 col-md-offset-3 ">
-                                <button id="btn_generate" data-loading-text="procesando..." type="" class="btn btn-info pull-right" ng-click="createTicket()">GENERAR</button>
+                                <button id="btn_generate" data-loading-text="procesando..." type="" class="btn btn-info pull-right btn-flat" ng-click="createTicket()">GENERAR</button>
                           </div>
                           <div class="col-md-1 col-md-offset-1 ">
-                              <button type="" class="btn btn-warning pull-right" ng-click="clean()">LIMPIAR</button>
+                              <button type="" class="btn btn-warning pull-right btn-flat" ng-click="clean()">LIMPIAR</button>
                           </div>
 
 

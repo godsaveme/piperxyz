@@ -137,7 +137,7 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
-        'JasperPHP\JasperPHPServiceProvider',
+        JasperPHP\JasperPHPServiceProvider::class,
         //'Thujohn\Pdf\PdfServiceProvider',
         //'Vsmoraes\Pdf\PdfServiceProvider',
 

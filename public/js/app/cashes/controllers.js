@@ -31,7 +31,7 @@
                         if(data['estado'] == true){
                             alert('Resumen Impreso');
                         }else{
-                            alert('Error. Consulte con el administrador del sistema');
+                            alert('RESUMEN NO GENERADO. REVISE LA CONEXIÓN CON LA IMPRESORA');
                         }
 
                     });

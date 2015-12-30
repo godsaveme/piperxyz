@@ -197,11 +197,17 @@ GROUP BY ticket.concepto_id'));
 
         //var_dump($ticketLast); die();
 
-        $this->generateResumePaper($oCash,$cantidadTickets,$cantidadPersonas,$table,$montoTickets,$ticketIni,$ticketLast,$userName,$cantidadTicketsAnulados,$montoTicketsAnulados);
+        $output = $this->generateResumePaper($oCash,$cantidadTickets,$cantidadPersonas,$table,$montoTickets,$ticketIni,$ticketLast,$userName,$cantidadTicketsAnulados,$montoTicketsAnulados);
+        if($output == true){
+            //\DB::commit();
+            return response()->json(['estado'=>true]);
+        }else{
+            return response()->json(['estado'=>false]);
+        }
         //de xx1--xx2
         //
         //var_dump($openCash->cashHeader->msje); die();
-        return response()->json(['estado'=>true, 'nombre'=>$oCash->nombre]);
+        //return response()->json(['estado'=>true, 'nombre'=>$oCash->nombre]);
     }
 
     public function consultarCajero()
@@ -382,14 +388,29 @@ GROUP BY ticket.concepto_id'));
         $myfile = fopen("../resources/ticket.php", "w") or die("Unable to open file!");
         fwrite($myfile, $txt);
         fclose($myfile);
-        $cmd = 'php '.base_path("/resources/").'ticket.php  > '.base_path("resources/").'ticket.txt';
+        //$cmd = 'php '.base_path("/resources/").'ticket.php  > '.base_path("resources/").'ticket.txt';
         //$cmd = 'lpr -P Photosmart-Plus-B209a-m /var/www/html/4Rest/public/newfile.php';
-        shell_exec($cmd);//exec('sudo -u myuser ls /');
+        //shell_exec($cmd);//exec('sudo -u myuser ls /');
 
-        $cmd2 = 'lpr -P '.$oCash->cashHeader->printerName.' -o raw '.base_path("resources/").'ticket.txt';
-        shell_exec($cmd2);
+        $cmdInic = 'netcat -z '.$oCash->cashHeader->printerName.' 9100 && echo "ok" || echo "failed"';
 
-        return response()->json('true');
+        $output = shell_exec($cmdInic);
+
+
+        if($output=="ok\n"){
+            //print_r('OKKKTRUE'); die();
+            $cmd = 'php '.base_path("/resources/").'ticket.php | nc '.$oCash->cashHeader->printerName.' 9100';
+            shell_exec($cmd);
+            return true;
+        }else{
+            //print_r('OKKKFALSE'); die();
+            return false;
+        }
+
+        //$cmd2 = 'lpr -P '.$oCash->cashHeader->printerName.' -o raw '.base_path("resources/").'ticket.txt';
+        //shell_exec($cmd2);
+
+        //return response()->json('true');
     }
 
 

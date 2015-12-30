@@ -144,6 +144,21 @@
 
                 return deferred.promise;
             }
+            function selectPost(area,uri,fx)
+            {
+                var deferred = $q.defer();
+                //alert(area);
+                $http.post('/api/'+uri+'/'+fx, area )
+                    .success(function(data)
+                    {
+                        deferred.resolve(data);
+                    }
+                ).error(function(data)
+                    {
+                        alert('Error.');
+                    });
+                return deferred.promise;
+            }
             function validar(uri,texto)
             {
                 var deferred = $q.defer();
@@ -179,7 +194,8 @@
                 searchMes,searchMes,
                 reportPro,reportPro,
                 reportProWare,reportProWare,
-                deudasSupplier: deudasSupplier
+                deudasSupplier: deudasSupplier,
+                selectPost: selectPost
             }
         }])
         .factory('socketService', function ($rootScope) {

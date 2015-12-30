@@ -7,6 +7,33 @@
                 $scope.errors = null;
                 $scope.success;
                 $scope.query = '';
+                $scope.reporte = {};
+                $scope.reporte.conceptos = {};
+
+                $scope.example9model = [];  $scope.example9settings = {enableSearch: true,displayProp:'nombre',idProp:'id'};
+
+                $scope.rpteConceptos = function(){
+                    //$scope.reporte.fechaFin.setUTCHours($scope.reporte.fechaFin.getHours());
+                    //alert($scope.reporte.fechaFin);
+                    if($scope.reporte.fechaInicio != undefined && $scope.reporte.fechaFin != undefined && $scope.example9model.length > 0){
+                        var $btn = $('#btn_rpt').button('loading');
+                        //alert('holi');
+                        //$log.log($scope.reporte);
+
+                        $scope.reporte.conceptos = $scope.example9model.map(function(elem){
+                            return elem.id;
+                        }).join(",");
+
+                        crudService.selectPost($scope.reporte,'reports','conceptos').then(function(data){
+                            //$log.log(data);
+                            alert('Reporte Generado');
+                            $btn.button('reset');
+                            //var path = window.location.host;
+                            window.open('http://'+window.location.host+data);
+                            //window.open("http://www.w3schools.com");
+                        });
+                    }
+                }
 
                 $scope.toggle = function () {
                     $scope.show = !$scope.show;
@@ -33,14 +60,25 @@
                         $scope.brand = data;
                     });
                 }else{
-                    crudService.paginate('brands',1).then(function (data) {
+                    crudService.select('conceptos','mostrables').then(function (data){
+                        $scope.conceptosMostrables = data;
+                        //$scope.ticket.precioUnitFinal = data[0].precioUnit;
+                        //$scope.precioConcepto1 = data[0].precioUnit;
+                        //alert(data[0].precioUnit);
+                    });
+                    crudService.select('conceptos','all').then(function (data){
+                        $scope.conceptosNoMostrables = data;
+                        $scope.example9data = $scope.conceptosNoMostrables;
+                        //$scope.ticket.nombreConcepto = 3;
+                    });
+                    /*crudService.paginate('brands',1).then(function (data) {
                         $scope.brands = data.data;
                         $scope.maxSize = 5;
                         $scope.totalItems = data.total;
                         $scope.currentPage = data.current_page;
                         $scope.itemsperPage = 15;
 
-                    });
+                    });*/
                 }
 
                 socket.on('brand.update', function (data) {

@@ -23,7 +23,8 @@ Clientes
 </section>
 
 @section('js-customize')
-
+    <script src="/vendor/lodash/dist/lodash.min.js"></script>
+    <script src="/vendor/angularjs-dropdown-multiselect/dist/angularjs-dropdown-multiselect.min.js"></script>
 @stop
 
 @stop

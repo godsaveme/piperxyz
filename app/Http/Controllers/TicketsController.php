@@ -105,7 +105,7 @@ class TicketsController extends Controller {
 
             $managerTicket->save();
             //Event::fire('update.Ttype',$Ttype->all());
-            \DB::commit();
+
             //$oEmpresa = \Salesfly\Salesfly\Entities\Store::find(1);
             $userName = User::find($openCash->user_id)->name;
 
@@ -113,9 +113,16 @@ class TicketsController extends Controller {
             //var_dump($openCash);
             //var_dump($userName);
             //die();
-            $this->generateTicketPaper($oTicket,$openCash,$userName);
+            $output = $this->generateTicketPaper($oTicket,$openCash,$userName);
+            //var_dump($output); die();
+            if($output == true){
+                \DB::commit();
+                return response()->json(['estado'=>true]);
+            }else{
+                return response()->json(['estado'=>false]);
+            }
             //var_dump($openCash->cashHeader->msje); die();
-            return response()->json(['estado'=>true]);
+
         }
 
     }
@@ -253,14 +260,34 @@ class TicketsController extends Controller {
         $myfile = fopen("../resources/ticket.php", "w") or die("Unable to open file!");
         fwrite($myfile, $txt);
         fclose($myfile);
-        $cmd = 'php '.base_path("/resources/").'ticket.php  > '.base_path("resources/").'ticket.txt';
+
+        $cmdInic = 'netcat -z '.$openCash->cashHeader->printerName.' 9100 && echo "ok" || echo "failed"';
+
+        $output = shell_exec($cmdInic);
+
+        //var_dump($output); die();
+        //$output = (string) $output;
+        //echo $output; die();
+
+        if($output=="ok\n"){
+            //print_r('OKKKTRUE'); die();
+            $cmd = 'php '.base_path("/resources/").'ticket.php | nc '.$openCash->cashHeader->printerName.' 9100';
+            shell_exec($cmd);
+            return true;
+        }else{
+            //print_r('OKKKFALSE'); die();
+            return false;
+        }
+
+
+        //$cmd = 'php '.base_path("/resources/").'ticket.php  > '.base_path("resources/").'ticket.txt';
         //$cmd = 'lpr -P Photosmart-Plus-B209a-m /var/www/html/4Rest/public/newfile.php';
-        shell_exec($cmd);//exec('sudo -u myuser ls /');
+        //shell_exec($cmd);//exec('sudo -u myuser ls /');
 
-        $cmd2 = 'lpr -P '.$openCash->cashHeader->printerName.' -o raw '.base_path("resources/").'ticket.txt';
-        shell_exec($cmd2);
+        //$cmd2 = 'lpr -P '.$openCash->cashHeader->printerName.' -o raw '.base_path("resources/").'ticket.txt';
+        //shell_exec($cmd2);
 
-        return response()->json('true');
+
     }
 
 }

@@ -8,6 +8,8 @@ use Illuminate\Routing\Controller;
 use Salesfly\Salesfly\Repositories\ConceptoRepo;
 use Salesfly\Salesfly\Managers\ConceptoManager;
 
+use JasperPHP\JasperPHP as JasperPHP;
+
 class ConceptosController extends Controller {
 
     protected $conceptoRepo;
@@ -24,9 +26,11 @@ class ConceptosController extends Controller {
 
     public function all()
     {
-        $brands = $this->brandRepo->paginate(15);
-        return response()->json($brands);
+        //$brands = $this->brandRepo->paginate(15);
+        //return response()->json($brands);
         //var_dump($brands);
+        $conceptos = $this->conceptoRepo->all();
+        return response()->json($conceptos);
     }
 
     public function conceptosmostrables()
@@ -110,5 +114,55 @@ class ConceptosController extends Controller {
         $brands = $this->brandRepo->validarNoRepit($text);
 
         return response()->json($brands);
+    }
+    public function generateReporteConceptos(Request $request)
+    {
+
+        //return $ff;
+        //var_dump(substr($request->input('fechaInicio'),0,10)); die();
+
+        $database = \Config::get('database.connections.mysql');
+        $time=time();
+        $output = public_path() . '/report/'.$time.'_reportConceptos';
+
+        $fechaInic = substr($request->input('fechaInicio'),0,10);
+        $fechaFin = substr($request->input('fechaFin'),0,10);
+        $conceptos = $request->input('conceptos');
+        //var_dump($fechaFin); die();
+
+        $ext = "pdf";
+
+        //var_dump($fechaFin);
+        //var_dump($fechaInic);
+        //var_dump($conceptos);
+        //die();
+
+
+        $salida = \JasperPHP::process(
+            public_path() . '/report/rptCon.jasper',
+            $output,
+            array($ext),
+            //array(),
+            //while($i<=3){};
+            ['fechaInic' => $fechaInic,
+                'fechaFin' => $fechaFin,
+                'conceptos' => $conceptos],//Parametros
+
+            $database,
+            false,
+            false
+        )->execute();
+
+        //return $salida;
+
+        return '/report/'.$time.'_reportConceptos.'.$ext;
+
+        /*$output = \JasperPHP::list_parameters(
+            public_path() . '/report/rptConceptos.jasper'
+        )->execute();
+
+        foreach($output as $parameter_description)
+            var_dump( $parameter_description);*/
+
     }
 }

@@ -38,6 +38,7 @@ Route::get('status', function(){
  * */
 Route::get('api/conceptos/mostrables','ConceptosController@conceptosmostrables');
 Route::get('api/conceptos/noMostrables','ConceptosController@conceptosNoMostrables');
+Route::get('api/conceptos/all','ConceptosController@all');
 Route::post('api/conceptos/create','ConceptosController@create');
 
 Route::post('api/tickets/create','TicketsController@create');
@@ -48,6 +49,9 @@ Route::get('api/tickets/search/{q?}','TicketsController@searchTickets');
 Route::get('api/cashes/printCash/{id}','CashesController@printCash');
 Route::get('api/cashes/consultarCajero','CashesController@consultarCajero');
 Route::get('api/cashes/resumenCaja/{id}','CashesController@resumenCaja');
+
+//Route::get('/reporting', ['uses' =>'ReportController@index', 'as' => 'Report']);
+Route::post('api/reports/conceptos', ['uses' =>'ConceptosController@generateReporteConceptos']);
 
 /*FIN DE RUTAS PIRKAS ENTRADA*/
 // Authentication routes...
@@ -196,7 +200,7 @@ Route::get('api/storeReport/search/{q?}',['as'=>'store_search', 'uses'=>'StoresC
 Route::get('api/stores/find/{id}',['as'=>'store_find', 'uses'=>'StoresController@find']);
 Route::get('api/stores/select','StoresController@selectStores');
 //route::controller('/', 'Layout\proban@prob'); 
-Route::get('brands',['as'=>'brand','uses'=>'BrandsController@index']);
+Route::get('rpt/conceptos',['as'=>'brand','uses'=>'BrandsController@index']);
  Route::get('brands/create',['as'=>'brand_create','uses'=>'BrandsController@index']);
  Route::get('brands/edit/{id?}', ['as' => 'brand_edit', 'uses' => 'BrandsController@index']);
  Route::get('brands/form-create',['as'=>'brand_form_create','uses'=>'BrandsController@form_create']);

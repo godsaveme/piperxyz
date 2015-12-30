@@ -1,11 +1,11 @@
 <!-- Content Header (Page header) -->
         <section class="content-header">
-          <h1>Brands
-            <small>Panel de Control</small>
+          <h1>Reporte de Conceptos por fecha
+            <small>Vista Principal</small>
           </h1>
           <ol class="breadcrumb">
             <li><a href="/"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li class="active">Brands</li>
+            <li class="active">Reporte de Conceptos</li>
           </ol>
 
           
@@ -15,11 +15,7 @@
 
         <!-- Main content -->
         <section class="content">
-        <div class="row">
-        <div class="col-md-12">
-          <a href="/brands/create" type="submit" class="btn btn-primary pull-left">Add Brands</a> 
-          </div>
-        </div>
+
         </br>
           <div class="row">
             <div class="col-md-12">
@@ -28,63 +24,93 @@
               <div class="box">
 
                 <div class="box-header with-border">
-                  <h3 class="box-title">Brands</h3>
+                  <h3 class="box-title">Generación del Reporte de Conceptos</h3>
                   <div class="box-tools">
-                  <form ng-keyup="searchBrand()">
-                    <div class="input-group" style="width: 200px;">
-                      <input type="text" ng-model="query"  name="table_search" class="form-control input-sm pull-right" placeholder="Search" />
-                      <div class="input-group-btn">
-                        <button class="btn btn-sm btn-default"><i class="fa fa-search"></i></button>
-                      </div>
-                    </div>
-                    </form>
+
                   </div>
                 </div><!-- /.box-header -->
                 <div class="box-body">
+
                     <div class="row">
-                        <div class="col-sm-10">
-                            <div ng-show="success" class="callout callout-info">
-                                <strong>{{success}} se ha creado correctamente!</strong>
+                        <div class="col-md-10 col-md-offset-1">
+                            <div class="panel panel-warning">
+                                <div class="panel-heading">Reporte</div>
+                                <div class="panel-body">
+
+                                    <form class="form" role="form" >
+                                        <input type="hidden" name="_token" value= />
+                                        <div class="form-group">
+                                            <div class="row">
+                                            <div class="col-md-offset-1 col-md-3">
+
+
+
+                                                        <div class="form-group" ng-class="{true: 'has-error'}[ customerCreateForm.fechaInicio.$error.required &amp;&amp; customerCreateForm.$submitted || customerCreateForm.fechaInicio.$dirty &amp;&amp; customerCreateForm.fechaInicio.$invalid]">
+                                                            <label for="">Fecha de Inicio</label>
+                                                            <div class="input-group">
+                                                                <div class="input-group-addon">
+                                                                    <i class="fa fa-calendar"></i>
+                                                                </div>
+                                                                <input type="date" class="form-control ng-pristine ng-untouched ng-valid" name="fechaInicio" ng-model="reporte.fechaInicio">
+
+                                                            </div>
+                                                            </div>
+
+
+
+
+
+
+
+                                                </div>
+                                            <div class="col-md-offset-1 col-md-3">
+                                                <div class="form-group" ng-class="{true: 'has-error'}[ customerCreateForm.fechaFin.$error.required &amp;&amp; customerCreateForm.$submitted || customerCreateForm.fechaFin.$dirty &amp;&amp; customerCreateForm.fechaFin.$invalid]">
+                                                    <label for="">Fecha de Fin</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-addon">
+                                                            <i class="fa fa-calendar"></i>
+                                                        </div>
+                                                        <input type="date" class="form-control ng-pristine ng-valid ng-touched" name="fechaFin" ng-model="reporte.fechaFin">
+
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class=" col-md-offset-1 col-md-3">
+                                                    <label for="">Selección de Conceptos</label>
+                                            <div ng-dropdown-multiselect="" options="example9data" selected-model="example9model" extra-settings="example9settings"></div>
+                                                </div>
+                                            </div>
+                                            </div>
+                                        <div class="form-group">
+                                            <div class="row">
+                                            <div class="col-md-offset-5 col-md-3">
+                                                <button id="btn_rpt" data-loading-text="Cargando..." class="btn btn-warning btn-flat" ng-click="rpteConceptos()">Generar Reporte</button>
+
+                                            </div>
+                                            </div>
+
+                                        </div>
+
+                                    </form>
+
+
+                                </div>
+
+
+
+                                </div>
                             </div>
                         </div>
                     </div>
-                <div class="callout callout-info"  ng-show="brand.id">
-                    <h4>¿ Estás seguro que deseas eliminar a "{{Brand.nombre}}" ?</h4>
-                    <p>
-                      <button type="button" class="btn btn-danger" ng-click="destroyBrand()">Si</button>
-                      <button type="button" class="btn btn-default" ng-click="cancelBrand()">No</button>
-                    </p>
-                  </div>
-                  <table class="table table-bordered">
-                    <tr>
-                      <th style="width: 10px">#</th>
-                      <th>Nombre</th>
-                      <th>ShortName</th>
-                      <th>Descripcion</th>
-                      
-                      <th style="width: 40px">Editar</th>
-                      <th style="width: 40px">Eliminar</th>
-                    </tr>
-                    
-                    <tr ng-repeat="row in brands">
-                      <td>{{$index + 1}}</td>
-                      <td>{{row.nombre}}</td>
-                      <td>{{row.shortname}}</td>
-                      <td>{{row.descripcion}}</td>
-                      <td><a ng-click="editBrand(row)" class="btn btn-warning btn-xs">Editar</a></td>
-                      <td><a ng-click="deleteBrand(row)" class="btn btn-danger btn-xs">Eliminar</a></td>
-                      
-                    </tr>
-                    
-                    
-                  </table>
+
+
                 </div><!-- /.box-body -->
-                <div class="box-footer clearfix">
-                  <pagination total-items="totalItems" ng-model="currentPage" max-size="maxSize" class="pagination-sm no-margin pull-right" items-per-page="itemsperPage" boundary-links="true" rotate="false" num-pages="numPages" ng-change="pageChanged()"></pagination>
 
-
-
-                </div>
               </div><!-- /.box -->
             </div>  
           </div>

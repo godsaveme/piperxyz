@@ -111,18 +111,18 @@
                 })    
 
                 //-------------------------------------------------------------        
-             .when('/brands', {
+             .when('/rpt/conceptos', {
                     templateUrl: '/js/app/brands/views/index.html',
                     controller: 'BrandController'
                 })
-                .when('/brands/create',{
+                /*.when('/brands/create',{
                     templateUrl:'/brands/form-create',
                     controller: 'BrandController'
                 })
                 .when('/brands/edit/:id',{
                     templateUrl:'/brands/form-edit',
                     controller: 'BrandController'
-                })  
+                })*/
                       //----------------------------------------------------------------------
             .when('/suppliers', {
                     templateUrl: '/js/app/suppliers/views/index.html',

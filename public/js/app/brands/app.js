@@ -6,6 +6,7 @@
         'brands.controllers',
         'crud.services',
         'routes',
-        'ui.bootstrap'
+        'ui.bootstrap',
+        'angularjs-dropdown-multiselect'
     ]);
 })();

@@ -185,7 +185,7 @@
               <ul class="treeview-menu">
                 <li class=""><a href="/#" ><i class="fa fa-circle-o"></i>Reporte de Tickets</a></li>
                 <li><a href="/#"><i class="fa fa-circle-o"></i>Reporte de Cajas </a></li>
-                <li><a href="/#"><i class="fa fa-circle-o"></i>Reporte de Conceptos </a></li>
+                <li><a href="/rpt/conceptos"><i class="fa fa-circle-o"></i>Reporte de Conceptos </a></li>
 
               </ul>
             </li>

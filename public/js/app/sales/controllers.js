@@ -94,8 +94,8 @@
                             if(data['estado'] == true) {
                                 $btn.button('reset');
                             }else{
-                                alert('Ticket no generado. Pruebe abriendo caja.');
-                                $btn.button('reset');
+                                alert('TICKET NO GENERADO. REVISE LA CONEXIÓN CON LA IMPRESORA O PRUEBE ABRIENDO CAJA.');
+                                //$btn.button('reset');
                             }
                         });
 
