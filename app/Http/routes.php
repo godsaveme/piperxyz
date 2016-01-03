@@ -272,19 +272,19 @@ Route::get('api/warehouses/search/{q?}/{id?}',['as'=>'atribut_search', 'uses'=>'
 
 //Route::get('api/stores/select','WarehousesController@select');
 
-Route::get('stations',['as'=>'warehouse','uses'=>'StationsController@index']);
-Route::get('stations/create',['as'=>'warehouse_create','uses'=>'StationsController@index']);
-Route::get('stations/edit/{id?}', ['as' => 'atribut_edit', 'uses' => 'StationsController@index']);
-Route::get('stations/form-create',['as'=>'atribut_form_create','uses'=>'StationsController@form_create']);
-Route::get('stations/form-edit',['as'=>'atribut_form_edit','uses'=>'StationsController@form_edit']);
-Route::get('api/stations/all',['as'=>'atribut_all', 'uses'=>'StationsController@all']);
-Route::get('api/stations/paginate/',['as' => 'atribut_paginate', 'uses' => 'StationsController@paginatep']);
-Route::post('api/stations/create',['as'=>'atribut_create', 'uses'=>'StationsController@create']);
-Route::put('api/stations/edit',['as'=>'atribut_edit', 'uses'=>'StationsController@edit']);
-Route::post('api/stations/destroy',['as'=>'atribut_destroy', 'uses'=>'StationsController@destroy']);
-Route::get('api/stations/search/{q?}',['as'=>'atribut_search', 'uses'=>'StationsController@search']);
-Route::get('api/stations/find/{id}',['as'=>'atribut_find', 'uses'=>'StationsController@find']);
-Route::get('api/stations/validar/{text}',['as'=>'atribut_find', 'uses'=>'StationsController@validastationname']);
+Route::get('conceptos',['as'=>'warehouse','uses'=>'ConceptosController@index']);
+Route::get('conceptos/create',['as'=>'warehouse_create','uses'=>'ConceptosController@index']);
+Route::get('conceptos/edit/{id?}', ['as' => 'atribut_edit', 'uses' => 'ConceptosController@index']);
+Route::get('conceptos/form-create',['as'=>'atribut_form_create','uses'=>'ConceptosController@form_create']);
+Route::get('conceptos/form-edit',['as'=>'atribut_form_edit','uses'=>'ConceptosController@form_edit']);
+Route::get('api/conceptos/all',['as'=>'atribut_all', 'uses'=>'ConceptosController@all']);
+Route::get('api/conceptos/paginate/',['as' => 'atribut_paginate', 'uses' => 'ConceptosController@paginatep']);
+Route::post('api/conceptos/createN',['as'=>'atribut_create', 'uses'=>'ConceptosController@createN']);
+Route::put('api/conceptos/edit',['as'=>'atribut_edit', 'uses'=>'ConceptosController@edit']);
+Route::post('api/conceptos/destroy',['as'=>'atribut_destroy', 'uses'=>'ConceptosController@destroy']);
+Route::get('api/conceptos/search/{q?}',['as'=>'atribut_search', 'uses'=>'ConceptosController@search']);
+Route::get('api/conceptos/find/{id}',['as'=>'atribut_find', 'uses'=>'ConceptosController@find']);
+Route::get('api/conceptos/validar/{text}',['as'=>'atribut_find', 'uses'=>'ConceptosController@validastationname']);
 
 
 Route::get('materials',['as'=>'warehouse','uses'=>'MaterialsController@index']);

@@ -21,7 +21,7 @@ class ConceptosController extends Controller {
 
     public function index()
     {
-        return View('brands.index');
+        return View('conceptos.index');
     }
 
     public function all()
@@ -45,75 +45,97 @@ class ConceptosController extends Controller {
     }
 
     public function paginatep(){
-        $brands = $this->brandRepo->paginate(15);
-        return response()->json($brands);
+        $conceptos = $this->conceptoRepo->paginate(15);
+        return response()->json($conceptos);
     }
 
 
     public function form_create()
     {
-        return View('brands.form_create');
+        return View('conceptos.form_create');
     }
 
     public function form_edit()
     {
-        return View('brands.form_edit');
+        return View('conceptos.form_edit');
     }
 
     public function create(Request $request)
     {
+        //var_dump($request->all()); die();
         $concepto = $this->conceptoRepo->getModel();
 
-        $request->merge(array('nombre' => $request->input('nuevoConcepto') ));
-        $request->merge(array('precioUnit' => 5 ));
-        $request->merge(array('descripcion' => '' ));
-        $request->merge(array('mostrable' => 0 ));
+        if($request->input('concepto') == 'otro') {
 
-        $manager = new ConceptoManager($concepto,$request->only('nombre','precioUnit','descripcion','mostrable'));
+            $request->merge(array('nombre' => $request->input('nuevoConcepto')));
+            $request->merge(array('precioUnit' => 5));
+            $request->merge(array('descripcion' => ''));
+            $request->merge(array('mostrable' => 0));
+            $manager = new ConceptoManager($concepto,$request->only('nombre','precioUnit','descripcion','mostrable'));
 
-        $manager->save();
+            $manager->save();
+            return response()->json(['estado'=>true, 'data' => $concepto]);
+        }else{
+            //var_dump($request->all()); die();
+            $manager = new ConceptoManager($concepto,$request->all());
+            $manager->save();
+            return response()->json(['estado'=>true]);
 
-        return response()->json(['estado'=>true, 'data' => $concepto]);
+        }
+
     }
+
+    /*public function createN(Request $request)
+    {
+        $concepto = $this->conceptoRepo->getModel();
+        //var_dump($request->all());
+        //die();
+        $manager = new ConceptoManager($concepto,$request->all());
+        //print_r($manager); die();
+        $manager->save();
+        //Event::fire('update.store',$store->all());
+
+        return response()->json(['estado'=>true]);
+    }*/
 
     public function find($id)
     {
-        $brand = $this->brandRepo->find($id);
-        return response()->json($brand);
+        $concepto = $this->conceptoRepo->find($id);
+        return response()->json($concepto);
     }
 
     public function edit(Request $request)
     {
-        $brand = $this->brandRepo->find($request->id);
+        $concepto = $this->conceptoRepo->find($request->id);
         //var_dump($brand);
         //die(); 
-        $manager = new BrandManager($brand,$request->all());
+        $manager = new ConceptoManager($concepto,$request->all());
         $manager->save();
 
         //Event::fire('update.brand',$brand->all());
-        return response()->json(['estado'=>true, 'nombre'=>$brand->nombre]);
+        return response()->json(['estado'=>true]);
     }
 
     public function destroy(Request $request)
     {
-        $brand= $this->brandRepo->find($request->id);
-        $brand->delete();
+        $concepto= $this->conceptoRepo->find($request->id);
+        $concepto->delete();
         //Event::fire('update.brand',$brand->all());
-        return response()->json(['estado'=>true, 'nombre'=>$brand->nombre]);
+        return response()->json(['estado'=>true]);
     }
 
     public function search($q)
     {
         //$q = Input::get('q');
-        $brands = $this->brandRepo->search($q);
+        $conceptos = $this->conceptoRepo->search($q);
 
-        return response()->json($brands);
+        return response()->json($conceptos);
     }
     public function validaBrandname($text){
 
-        $brands = $this->brandRepo->validarNoRepit($text);
+        $conceptos = $this->conceptoRepo->validarNoRepit($text);
 
-        return response()->json($brands);
+        return response()->json($conceptos);
     }
     public function generateReporteConceptos(Request $request)
     {

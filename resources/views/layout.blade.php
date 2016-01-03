@@ -151,7 +151,7 @@
                 <li class=""><a href="/users" ><i class="fa fa-circle-o"></i>Usuarios</a></li>
 
                   <li><a href="/stores"><i class="fa fa-circle-o"></i>Empresas </a></li>
-                <li><a href="/#"><i class="fa fa-circle-o"></i>Conceptos </a></li>
+                <li><a href="/conceptos"><i class="fa fa-circle-o"></i>Conceptos </a></li>
 
               </ul>
             </li>

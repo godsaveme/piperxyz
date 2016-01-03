@@ -16,11 +16,12 @@ class ConceptoRepo extends BaseRepo{
 
     public function search($q)
     {
-        /*$customers =Employee::where('nombres','like', $q.'%')
-            ->orWhere('apellidos','like',$q.'%')
+        $conceptos =Concepto::where('nombre','like', $q.'%')
+            ->orWhere('precioUnit','like',$q.'%')
+            ->orWhere('descripcion','like',$q.'%')
             //->with(['customer','employee'])
             ->paginate(15);
-        return $customers;*/
+        return $conceptos;
     }
 
     public function mostrables()

@@ -16,15 +16,15 @@ Clientes
 </section>-->
 
 <!-- Main content -->
-<section ng-app="stations">
+<section ng-app="conceptos">
     <div ng-view>
 
     </div>
 </section>
 
 @section('js-customize')
-<script src="/js/app/stations/app.js"></script>
-    <script src="/js/app/stations/controllers.js"></script>
+<script src="/js/app/conceptos/app.js"></script>
+    <script src="/js/app/conceptos/controllers.js"></script>
 @stop
 
 @stop

@@ -84,17 +84,17 @@
                     controller: 'MaterialsController'
                 }) 
                 //---------------------------------------------------
-                .when('/stations', {
-                    templateUrl: '/js/app/stations/views/index.html',
-                    controller: 'StationController'
+                .when('/conceptos', {
+                    templateUrl: '/js/app/conceptos/views/index.html',
+                    controller: 'ConceptoController'
                 })
-                .when('/stations/create',{
-                    templateUrl:'/stations/form-create',
-                    controller: 'StationController'
+                .when('/conceptos/create',{
+                    templateUrl:'/conceptos/form-create',
+                    controller: 'ConceptoController'
                 })
-                .when('/stations/edit/:id',{
-                    templateUrl:'/stations/form-edit',
-                    controller: 'StationController'
+                .when('/conceptos/edit/:id',{
+                    templateUrl:'/conceptos/form-edit',
+                    controller: 'ConceptoController'
                 }) 
            // ------------------------------------------------------
             .when('/types', {

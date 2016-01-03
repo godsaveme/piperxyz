@@ -1,12 +1,14 @@
 (function(){
-    angular.module('stations.controllers',[])
-        .controller('StationController',['$scope', '$routeParams','$location','crudService','socketService' ,'$filter','$route','$log',
+    angular.module('conceptos.controllers',[])
+        .controller('ConceptoController',['$scope', '$routeParams','$location','crudService','socketService' ,'$filter','$route','$log',
             function($scope, $routeParams,$location,crudService,socket,$filter,$route,$log){
                 $scope.conceptos = [];
                 $scope.concepto = {};
                 $scope.errors = null;
                 $scope.success;
                 $scope.query = '';
+                $scope.estados = [{key:'0', value:'No mostrable'},{key:'1', value:'Mostrable'}];
+                $scope.concepto.mostrable = '0';
 
                 $scope.toggle = function () {
                     $scope.show = !$scope.show;
