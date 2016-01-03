@@ -2,8 +2,8 @@
     angular.module('stations.controllers',[])
         .controller('StationController',['$scope', '$routeParams','$location','crudService','socketService' ,'$filter','$route','$log',
             function($scope, $routeParams,$location,crudService,socket,$filter,$route,$log){
-                $scope.stations = [];
-                $scope.station = {};
+                $scope.conceptos = [];
+                $scope.concepto = {};
                 $scope.errors = null;
                 $scope.success;
                 $scope.query = '';
@@ -14,12 +14,12 @@
 
                 $scope.pageChanged = function() {
                     if ($scope.query.length > 0) {
-                        crudService.search('stations',$scope.query,$scope.currentPage).then(function (data){
-                        $scope.stations = data.data;
+                        crudService.search('conceptos',$scope.query,$scope.currentPage).then(function (data){
+                        $scope.conceptos = data.data;
                     });
                     }else{
-                        crudService.paginate('stations',$scope.currentPage).then(function (data) {
-                            $scope.stations = data.data;
+                        crudService.paginate('conceptos',$scope.currentPage).then(function (data) {
+                            $scope.conceptos = data.data;
                         });
                     }
                 };
@@ -29,12 +29,12 @@
 
                 if(id)
                 {
-                    crudService.byId(id,'stations').then(function (data) {
-                        $scope.station = data;
+                    crudService.byId(id,'conceptos').then(function (data) {
+                        $scope.concepto = data;
                     });
                 }else{
-                    crudService.paginate('stations',1).then(function (data) {
-                        $scope.stations = data.data;
+                    crudService.paginate('conceptos',1).then(function (data) {
+                        $scope.conceptos = data.data;
                         $scope.maxSize = 5;
                         $scope.totalItems = data.total;
                         $scope.currentPage = data.current_page;
@@ -47,16 +47,16 @@
                     $scope.stations=JSON.parse(data);
                 });
 
-                $scope.searchStation = function(){
+                $scope.searchConcepto = function(){
                 if ($scope.query.length > 0) {
-                    crudService.search('stations',$scope.query,1).then(function (data){
-                        $scope.stations = data.data;
+                    crudService.search('conceptos',$scope.query,1).then(function (data){
+                        $scope.conceptos = data.data;
                         $scope.totalItems = data.total;
                         $scope.currentPage = data.current_page;
                     });
                 }else{
-                    crudService.paginate('stations',1).then(function (data) {
-                        $scope.stations = data.data;
+                    crudService.paginate('conceptos',1).then(function (data) {
+                        $scope.conceptos = data.data;
                         $scope.totalItems = data.total;
                         $scope.currentPage = data.current_page;
                     });
@@ -64,15 +64,15 @@
                     
                 };
 
-                $scope.createStation = function(){
+                $scope.createConcepto = function(){
                     //$scope.atribut.estado = 1;
-                    if ($scope.stationCreateForm.$valid) {
-                        crudService.create($scope.station, 'stations').then(function (data) {
+                    if ($scope.conceptoCreateForm.$valid) {
+                        crudService.create($scope.concepto, 'conceptos').then(function (data) {
                           
                             if (data['estado'] == true) {
                                 $scope.success = data['nombres'];
                                 alert('grabado correctamente');
-                                $location.path('/stations');
+                                $location.path('/conceptos');
 
                             } else {
                                 $scope.errors = data;
@@ -83,54 +83,54 @@
                 }
 
 
-                $scope.editStation = function(row){
-                    $location.path('/stations/edit/'+row.id);
+                $scope.editConcepto = function(row){
+                    $location.path('/conceptos/edit/'+row.id);
                 };
 
-                $scope.updateStation = function(){
+                $scope.updateConcepto = function(){
 
-                    if ($scope.stationCreateForm.$valid) {
-                        crudService.update($scope.station,'stations').then(function(data)
+                    if ($scope.conceptoCreateForm.$valid) {
+                        crudService.update($scope.concepto,'conceptos').then(function(data)
                         {
                             if(data['estado'] == true){
                                 $scope.success = data['nombres'];
                                 alert('editado correctamente');
-                                $location.path('/stations');
+                                $location.path('/conceptos');
                             }else{
                                 $scope.errors =data;
                             }
                         });
                     }
                 };
-                 $scope.validanomStacion=function(texto){
+                 $scope.validanomConcepto=function(texto){
                  alert("hola");
                    if(texto!=undefined){
-                        crudService.validar('stations',texto).then(function (data){
-                        $scope.station = data;
-                        alert($scope.station);
+                        crudService.validar('conceptos',texto).then(function (data){
+                        $scope.concepto = data;
+                        alert($scope.concepto);
                         if(data!=null){
-                           alert("Usted no puede crear dos Marcas con el mismo nombre");
-                           $scope.station.nombre=''; 
-                           $scope.station.shortname=''; 
+                           alert("Usted no puede crear dos Conceptos con el mismo nombre");
+                           $scope.concepto.nombre='';
+                           $scope.concepto.shortname='';
                         }
                     });
                     }
                }
-                $scope.deleteStation = function(row){
+                $scope.deleteConcepto = function(row){
                     
-                    $scope.station = row;
+                    $scope.concepto = row;
                 }
 
-                $scope.cancelStation = function(){
-                    $scope.station = {};
+                $scope.cancelConcepto = function(){
+                    $scope.concepto = {};
                 }
 
-                $scope.destroyStation = function(){
-                    crudService.destroy($scope.station,'stations').then(function(data)
+                $scope.destroyConcepto = function(){
+                    crudService.destroy($scope.concepto,'conceptos').then(function(data)
                     {
                         if(data['estado'] == true){
                             $scope.success = data['nombre'];
-                            $scope.station = {};
+                            $scope.concepto = {};
                             //alert('hola');
                             $route.reload();
 
