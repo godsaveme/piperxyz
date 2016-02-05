@@ -12,6 +12,7 @@ class Ticket extends \Eloquent {
         'precioUnitFinal',
         'cantidad',
         'montoFinal',
+        'bungalow',
         'notas',
         'estado',
         'detCash_id',

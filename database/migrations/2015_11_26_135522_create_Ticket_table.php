@@ -20,6 +20,7 @@ class CreateTicketTable extends Migration
             $table->decimal('precioUnitFinal',10,2);
             $table->decimal('cantidad',10,2);
             $table->decimal('montoFinal',10,2);
+            $table->string('bungalow');
             $table->text('notas');
             $table->boolean('estado');
             $table->integer('detCash_id')->unsigned();

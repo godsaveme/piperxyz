@@ -12,7 +12,7 @@ class ConceptosTableSeeder extends Seeder
     public function run()
     {
         DB::table('concepto')->insert([
-            'nombre' => 'Ingreso General',
+            'nombre' => 'Piscina',
             'precioUnit' => 3,
             'descripcion' => 'Ingreso General',
             'mostrable' => 1,
@@ -28,26 +28,10 @@ class ConceptosTableSeeder extends Seeder
             'updated_at' => date("Y-m-d H:i:s")
         ]);
         DB::table('concepto')->insert([
-            'nombre' => 'Camping',
+            'nombre' => 'Paseo en Caballo',
             'precioUnit' => 5,
             'descripcion' => 'Camping',
-            'mostrable' => 0,
-            'created_at' => date("Y-m-d H:i:s"),
-            'updated_at' => date("Y-m-d H:i:s")
-        ]);
-        DB::table('concepto')->insert([
-            'nombre' => 'Descuentos Autorizados a Iglesias',
-            'precioUnit' => 5,
-            'descripcion' => 'Descuentos Autorizados a Iglesias',
-            'mostrable' => 0,
-            'created_at' => date("Y-m-d H:i:s"),
-            'updated_at' => date("Y-m-d H:i:s")
-        ]);
-        DB::table('concepto')->insert([
-            'nombre' => 'Descuentos Autorizados a Colegios',
-            'precioUnit' => 5,
-            'descripcion' => 'Descuentos Autorizados a Colegios',
-            'mostrable' => 0,
+            'mostrable' => 1,
             'created_at' => date("Y-m-d H:i:s"),
             'updated_at' => date("Y-m-d H:i:s")
         ]);

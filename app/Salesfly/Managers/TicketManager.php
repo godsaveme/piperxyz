@@ -16,6 +16,7 @@ class TicketManager extends BaseManager {
             'precioUnitFinal'=>'required',
             'cantidad'=>'required',
             'montoFinal'=>'required',
+            'bungalow' => '',
             'notas'=>'',
             'estado'=>'required',
             'detCash_id' => 'required',

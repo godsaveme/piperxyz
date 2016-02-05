@@ -17,7 +17,7 @@
                 $scope.ticket = {};
                 $scope.ticket.concepto = 1;
                 $scope.ticket.cantidad = 1;
-                $scope.ticket.montoFinal = 3;
+                $scope.ticket.montoFinal = 0;
                 $scope.setVisibleOtro = false;
                 $scope.setVisibleNuevoConcepto = true;
                 $scope.resumenCaja = {};
@@ -27,7 +27,7 @@
                     $scope.ticket = {};
                     $scope.ticket.concepto = 1;
                     $scope.ticket.cantidad = 1;
-                    $scope.ticket.montoFinal = 3;
+                    $scope.ticket.montoFinal = 0;
                     $scope.ticket.precioUnitFinal = $scope.precioConcepto1; //para no pedir el valor al CRUD del concepto 1.
                     $scope.setVisibleOtro = false;
                     $scope.setVisibleNuevoConcepto = true;

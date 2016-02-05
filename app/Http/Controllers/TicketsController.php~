@@ -96,7 +96,6 @@ class TicketsController extends Controller {
                 'precioUnitFinal' => $request->input('precioUnitFinal'),
                 'cantidad' => $request->input('cantidad'),
                 'montoFinal' => $request->input('montoFinal'),
-                'bungalow' => $request->input('bungalow'),
                 'estado' => 1,
                 'detCash_id' => $oDetCash->id,
                 'concepto_id' => $concepto_id
@@ -202,10 +201,10 @@ class TicketsController extends Controller {
 							/* Print top logo */
                             $printer -> setJustification(Escpos::JUSTIFY_CENTER);
                             //$printer -> graphics($logo);
-							//$printer -> selectPrintMode(Escpos::MODE_DOUBLE_WIDTH);
+							$printer -> selectPrintMode(Escpos::MODE_DOUBLE_WIDTH);
 							$printer -> text("'.$openCash->cashHeader->msje.'");
-							//$printer -> feed();
-							//$printer -> selectPrintMode();
+							$printer -> feed();
+							$printer -> selectPrintMode();
 							$printer -> setJustification(Escpos::JUSTIFY_LEFT);
 							$printer -> feed();
 							$printer -> text("Ticket N°: '.$oTicket->id.'");
@@ -216,39 +215,33 @@ class TicketsController extends Controller {
 							$printer -> text("Caja: '.$openCash->cashHeader->nombre.'");
 							$printer -> text("  # Ref. Caja: '.$openCash->id.'");
 							$printer -> feed();
-							$printer -> text("----------------------------------------\n");
+							$printer -> text("------------------------------------------\n");
 							$printer -> text("Concepto: ");
 							$printer -> setEmphasis(true);
                             $printer -> text("'.$oTicket->concepto->nombre.'");
                             $printer -> setEmphasis(false);
-                            //$printer -> feed();
-                            //$printer -> text("Precio Unit. S/.: ");
-                            //$printer -> text("'.number_format($oTicket->precioUnitFinal,2).'");
+                            $printer -> feed();
+                            $printer -> text("Precio Unit. S/.: ");
+                            $printer -> text("'.number_format($oTicket->precioUnitFinal,2).'");
                             $printer -> feed();
                             $printer -> text("Cantidad: ");
-                            $printer -> text("'.$oTicket->cantidad.'. ");
-                            //$printer -> feed();
-                            $printer -> text("Bungalow: ");
-                            //$printer -> setEmphasis(true);
-                            //$printer -> text("'.number_format($oTicket->montoFinal,2).'");
-                            $printer -> text("'.$oTicket->bungalow.'");
-                            //$printer -> setEmphasis(false);
+                            $printer -> text("'.$oTicket->cantidad.'");
+                            $printer -> feed();
+                            $printer -> text("TOTAL S/.: ");
+                            $printer -> setEmphasis(true);
+                            $printer -> text("'.number_format($oTicket->montoFinal,2).'");
+                            $printer -> setEmphasis(false);
                             $printer -> feed();
 
 
-							$printer -> text("----------------------------------------\n");';
+							$printer -> text("------------------------------------------\n");';
 
 
 
         //$txt .= '$printer -> text("------------------------------------------------\n");';
         //$txt .= '$printer -> text("Boleta[] Factura[] / Consumo[] Detall.[]\n");';
-        /*$txt .= '$printer -> feed();';
+        $txt .= '$printer -> feed();';
         $txt .= '$printer -> setJustification(Escpos::JUSTIFY_CENTER);';
-        if($oTicket->concepto->id == 1){
-            $txt .= '$printer -> setEmphasis(true);';
-            $txt .= '$printer -> text("*MSje/n");';
-            $txt .= '$printer -> setEmphasis(false);';
-        }
         $txt .= '$printer -> text("¡Llene sus datos y deposite este ticket en las ánforas para el sorteo navideño!\n");';
         $txt .= '$printer -> feed();';
         $txt .= '$printer -> selectPrintMode();';
@@ -259,32 +252,29 @@ class TicketsController extends Controller {
         $txt .= '$printer -> text("Correo.:__________________________________\n");';
         $txt .= '$printer -> feed();';
         $txt .= '$printer -> text("Fecha de Impr.: '.date("d-m-Y").' '.date("H:i:s").'\n");';
-        $txt .= '$printer -> text("<<No válido como documento contable>>\n\n");';*/
+        $txt .= '$printer -> text("<<No válido como documento contable>>\n");';
         //$txt .= '$printer -> feed();';
         $txt .= '$printer -> cut();';
-	    $txt .= '$printer -> pulse();';
+	$txt .= '$printer -> pulse();';
         $txt .= '$printer -> close();';
 
         $myfile = fopen("../resources/ticket.php", "w") or die("Unable to open file!");
         fwrite($myfile, $txt);
         fclose($myfile);
 
-        //$cmdInic = 'netcat -z '.$openCash->cashHeader->printerName.' 9100 && echo "ok" || echo "failed"';
-        $cmdInic = 'ls /dev/usb/';
+        $cmdInic = 'netcat -z '.$openCash->cashHeader->printerName.' 9100 && echo "ok" || echo "failed"';
+
         $output = shell_exec($cmdInic);
 
         //var_dump($output); die();
         //$output = (string) $output;
         //echo $output; die();
 
-        if($output=="lp0\n"){
-            //$cmd = 'php '.base_path("/resources/").'ticket.php | nc '.$openCash->cashHeader->printerName.' 9100';
-            //shell_exec($cmd);
-            $cmd = 'echo "13pPqA24" | su -c "php '.base_path("/resources/").'ticket.php > /dev/usb/lp0"';
-            //$cmd = 'php '.base_path("/resources/").'ticket.php > /dev/usb/lp0';
-            $output = shell_exec($cmd);
+        if($output=="ok\n"){
+            //print_r('OKKKTRUE'); die();
+            $cmd = 'php '.base_path("/resources/").'ticket.php | nc '.$openCash->cashHeader->printerName.' 9100';
+            shell_exec($cmd);
             return true;
-
         }else{
             //print_r('OKKKFALSE'); die();
             return false;

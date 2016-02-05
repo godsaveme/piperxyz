@@ -13,14 +13,14 @@ class CashHeaderTableSeeder extends Seeder
     {
         //
         DB::table('cashHeaders')->insert([
-            'nombre' => 'Caja Principal',
-            'ambiente' => 'Principal',
+            'nombre' => 'Caja Recepcion',
+            'ambiente' => 'Recepcion',
             'estado' => 1,
-            'descripcion' => 'Caja Principal creada por defecto.',
+            'descripcion' => 'Caja Recepcion creada por defecto.',
             'serieTicket' => 1,
             'numeroTicket' => 1,
             'seriePrinter' => 'seriePrinter',
-            'msje' => 'Bienvenidos a\nLas Pirkas',
+            'msje' => 'LAS PIRKAS BUNGALOWS',
             'printerName' => 'epsont-tm-t88v',
             'store_id' => 1,
             'created_at' => date("Y-m-d H:i:s"),

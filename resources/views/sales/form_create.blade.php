@@ -165,7 +165,30 @@
 
 
                       </div>
+                      <div class="row">
+                          <div class="col-md-1 col-md-offset-2 ">
+                              <div class="form-group">
+                                  <label for="" class="control-label">BUNGALOW:</label>
+                              </div>
 
+                          </div>
+                          <div class="col-md-3 " >
+
+
+                              <div class="form-group">
+
+
+                                  <input  type="text" class="form-control" name="name" placeholder="Ej: 207" ng-model="ticket.bungalow" >
+
+
+                              </div>
+
+
+
+                          </div>
+
+
+                      </div>
                       <div class="row">
                           <div class="col-md-1 col-md-offset-2 ">
                               <div class="form-group">
